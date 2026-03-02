@@ -78,10 +78,25 @@ nav .btn-contact {
     border-radius: 5px;
 }
 
+.hero-image {
+ width: 250px !important;
+  height: 250px !important;
+  min-width: 250px;
+  min-height: 250px;
+  max-width: 250px;
+  max-height: 250px;
+
+  border-radius: 50%;
+  overflow: hidden;
+
+  display: block;
+}
+
 .hero-image img {
-    max-width: 500px;
     width: 100%;
-    border-radius: 10px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .modules {
