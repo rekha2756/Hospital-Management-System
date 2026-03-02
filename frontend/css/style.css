@@ -3,65 +3,51 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
-    font-family: 'Segoe UI', sans-serif;
-    height: 100vh;
-    background-image: url("../images/bg.jpg");
+    font-family: Arial, sans-serif;
+
+    /* Background Image */
+    background-image: url("../bg.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-
-.overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-
-.login-container {
-    position: relative;
-    z-index: 1;
-}
-
-
+/* Login Card */
 .login-card {
     width: 380px;
-    padding: 35px 30px;
-    background: rgba(255, 255, 255, 0.95);
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     text-align: center;
 }
 
-
-.logo-section h2 {
+/* Heading */
+.login-card h1 {
     color: #1565c0;
-    font-size: 24px;
+    margin-bottom: 5px;
 }
 
-.sub-title {
+.subtitle {
     font-size: 14px;
     color: #555;
     margin-bottom: 15px;
 }
 
-
 .quote {
     font-size: 14px;
-    color: #444;
     margin-bottom: 20px;
+    color: #333;
 }
 
-.success-quote {
-    color: #0d47a1;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-
+/* Inputs */
 .login-card input,
 .login-card select {
     width: 100%;
@@ -69,9 +55,9 @@ body {
     margin: 8px 0;
     border-radius: 6px;
     border: 1px solid #ccc;
-    font-size: 14px;
 }
 
+/* Button */
 .login-card button {
     width: 100%;
     padding: 12px;
@@ -82,17 +68,55 @@ body {
     border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
 .login-card button:hover {
     background: #0d47a1;
 }
 
-
+/* Toggle */
 .toggle-text {
     margin-top: 15px;
-    font-size: 14px;
     color: #1565c0;
     cursor: pointer;
+}
+/* HOME PAGE STYLING */
+
+.home-page {
+    background-image: url("../stetho.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.home-container h1 {
+    color: #1565c0;
+    margin-bottom: 10px;
+}
+
+.login-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: #1565c0;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.login-btn:hover {
+    background-color: #0d47a1;
 }
