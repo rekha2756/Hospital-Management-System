@@ -4,81 +4,24 @@
     <title>HealthAxis HMS - Login</title>
     <link rel="stylesheet" href="CSS/style.css">
 </head>
-<body>
-
-<div class="login-container">
+<body class="login-page">
 
     <div class="login-card">
-
         <h1>HealthAxis HMS</h1>
-        <p class="subtitle">Smart Hospital Management System</p>
+        <p class="subtitle">Smart Hospital Management</p>
 
-        <p id="quoteText" class="quote">
-            "Compassionate care begins with one simple step."
-        </p>
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
 
-        <form id="authForm">
+        <button>Login</button>
 
-            <input type="text" id="nameField" placeholder="Full Name" style="display:none;">
-
-            <input type="email" placeholder="Email" required>
-
-            <input type="password" placeholder="Password" required>
-
-            <select>
-                <option>Patient</option>
-                <option>Doctor</option>
-                <option>Admin</option>
-            </select>
-
-            <button type="submit" id="submitBtn">Login</button>
-
-        </form>
-
-        <p id="toggleText" class="toggle-text">
-            New user? Register here
+        <!-- ✅ Register Link -->
+        <p class="register-text">
+            If not registered?
+            <a href="register.html">Register</a>
         </p>
 
     </div>
-
-</div>
-
-<script>
-let isLogin = true;
-
-const toggleText = document.getElementById("toggleText");
-const nameField = document.getElementById("nameField");
-const submitBtn = document.getElementById("submitBtn");
-const quoteText = document.getElementById("quoteText");
-const form = document.getElementById("authForm");
-
-toggleText.addEventListener("click", function () {
-    isLogin = !isLogin;
-
-    if (!isLogin) {
-        nameField.style.display = "block";
-        submitBtn.innerText = "Register";
-        toggleText.innerText = "Already registered? Login here";
-        quoteText.innerText = "Join HealthAxis and experience smarter healthcare access.";
-    } else {
-        nameField.style.display = "none";
-        submitBtn.innerText = "Login";
-        toggleText.innerText = "New user? Register here";
-        quoteText.innerText = "Compassionate care begins with one simple step.";
-    }
-});
-
-form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    if (!isLogin) {
-        quoteText.innerText = "YOUR HEALTH, OUR PRIORITY";
-        quoteText.style.fontWeight = "bold";
-    } else {
-        window.location.href = "dashboard.html";
-    }
-});
-</script>
 
 </body>
 </html>

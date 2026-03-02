@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 * {
     margin: 0;
     padding: 0;
@@ -7,84 +6,14 @@
 
 body {
     font-family: Arial, sans-serif;
-
-    /* Background Image */
-    background-image: url("../bg.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-/* Login Card */
-.login-card {
-    width: 380px;
-    padding: 35px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    text-align: center;
-}
-
-/* Heading */
-.login-card h1 {
-    color: #1565c0;
-    margin-bottom: 5px;
-}
-
-.subtitle {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 15px;
-}
-
-.quote {
-    font-size: 14px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-/* Inputs */
-.login-card input,
-.login-card select {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-/* Button */
-.login-card button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    background: #1565c0;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.login-card button:hover {
-    background: #0d47a1;
-}
-
-/* Toggle */
-.toggle-text {
-    margin-top: 15px;
-    color: #1565c0;
-    cursor: pointer;
-}
-/* HOME PAGE STYLING */
+/* ===================== */
+/* HOME PAGE BACKGROUND  */
+/* ===================== */
 
 .home-page {
-    background-image: url("../stetho.jpg");
+    background-image: url("../images/stetho.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -93,6 +22,25 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+/* ===================== */
+/* LOGIN PAGE BACKGROUND */
+/* ===================== */
+
+.login-page {
+    background-image: url("../images/bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===================== */
+/* HOME CONTENT BOX      */
+/* ===================== */
 
 .home-container {
     background: rgba(255, 255, 255, 0.9);
@@ -115,139 +63,55 @@ body {
     color: white;
     text-decoration: none;
     border-radius: 6px;
-    font-size: 16px;
 }
 
 .login-btn:hover {
     background-color: #0d47a1;
 }
-=======
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: url("../images/indexbg.png") center/cover no-repeat fixed;
+
+/* ===================== */
+/* LOGIN CARD            */
+/* ===================== */
+
+.login-card {
+    width: 350px;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-align: center;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 50px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+.login-card h1 {
+    color: #1565c0;
+    margin-bottom: 5px;
 }
 
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.logo-container img {
-    width: 200px;
-    height: auto;
-}
-
-.logo-text {
-    font-weight: bold;
-    font-size: 20px;
-    color: #0a74da;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-}
-
-nav .btn-contact {
-    border: 1px solid #0a74da;
-    padding: 5px 15px;
-    border-radius: 5px;
-    color: #0a74da;
-}
-
-.hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 60px 50px;
-    background: transparent;
-}
-
-.hero-text h1 {
-    font-size: 32px;
-    color: #111;
-    margin-bottom: 15px;
-}
-
-.hero-text p {
-    font-size: 16px;
+.subtitle {
+    font-size: 14px;
     color: #555;
     margin-bottom: 20px;
 }
 
-.btn-primary {
-    background-color: #0a74da;
-    color: white;
-    padding: 10px 25px;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.hero-image img {
-    max-width: 500px;
+.login-card input {
     width: 100%;
-    border-radius: 10px;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
 }
 
-.modules {
-    padding: 50px;
-    text-align: center;
+.login-card button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #1565c0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-.modules h2 {
-    font-size: 28px;
-    margin-bottom: 30px;
+.login-card button:hover {
+    background: #0d47a1;
 }
-
-.module-cards {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.card {
-    background-color: rgba(255,255,255,0.9);
-    padding: 25px;
-    width: 250px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    text-align: left;
-}
-
-.card h3 {
-    margin-bottom: 10px;
-    color: #0a74da;
-}
-
-.card p {
-    color: #555;
-    font-size: 14px;
-}
-
-footer {
-    background-color: #ffffff;
-    text-align: center;
-    padding: 20px;
-    color: #333;
-    margin-top: 50px;
-}
->>>>>>> 918dadeff055f89e70bc67c943f154ccaca34443
