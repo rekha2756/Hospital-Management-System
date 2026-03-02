@@ -8,4 +8,4 @@ Team Members:
 5. Lahari
 
 Project Description:
-This project is used to manage hospital operations like patients, doctors, appointments, billing etc.
+This project is used to manage hospital operations like patients, doctors..............
