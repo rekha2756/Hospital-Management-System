@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+</head>
+<body>
+
+<h2>Register</h2>
+
+<input type="text" id="full_name" placeholder="Full Name"><br><br>
+
+<input type="email" id="email" placeholder="Email"><br><br>
+<input type="text" id="phone" placeholder="Phone (+91...)"><br><br>
+
+<select id="otpMethod">
+    <option value="email">Send OTP via Email</option>
+    <option value="mobile">Send OTP via Mobile</option>
+</select><br><br>
+
+<input type="password" id="password" placeholder="Password"><br><br>
+
+<button onclick="sendOTP()">Send OTP</button><br><br>
+
+<input type="text" id="otp" placeholder="Enter OTP"><br><br>
+
+<button onclick="registerUser()">Register</button>
+
+<script>
+async function sendOTP(){
+
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const method = document.getElementById("otpMethod").value;
+
+    const res = await fetch("/send-otp",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ email, phone, method })
+    });
+
+    const data = await res.json();
+    alert(data.message);
+}
+
+async function registerUser(){
+
+    const data = {
+        full_name: document.getElementById("full_name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        role: "Patient",
+        password: document.getElementById("password").value,
+        otp: document.getElementById("otp").value
+    };
+
+    const res = await fetch("/register",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(data)
+    });
+
+    const result = await res.json();
+    alert(result.message);
+}
+</script>
+
+</body>
+</html>
