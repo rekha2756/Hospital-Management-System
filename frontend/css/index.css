@@ -1,6 +1,7 @@
 html{
     scroll-behavior: smooth;
 }
+
 *{
     margin:0;
     padding:0;
@@ -8,9 +9,14 @@ html{
     font-family:'Segoe UI',sans-serif;
 }
 
+html,body{
+    height:100%;
+}
+
+/* BODY BACKGROUND IMAGE */
 body{
-    background:#f4f8ff;
-    color:#333;
+    background: url("../images/bg4.png") no-repeat center center fixed;
+    background-size: cover;
 }
 
 /* HEADER */
@@ -19,16 +25,16 @@ header{
     justify-content:space-between;
     align-items:center;
     padding:18px 70px;
-    background:#ffffff;
+    background:rgba(255,255,255,0.95);
     box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
 .logo-container img{
     width:170px;
-    border: #084ec1;
-    border-radius: 50%;
+    border-radius:50%;
 }
 
+/* NAVIGATION */
 nav ul{
     display:flex;
     list-style:none;
@@ -64,7 +70,7 @@ nav a:hover{
     justify-content:space-between;
     align-items:center;
     padding:90px 70px;
-    background:linear-gradient(to right,#e8f1ff,#ffffff);
+    background:transparent;   /* IMPORTANT */
 }
 
 .hero-text{
@@ -102,14 +108,14 @@ nav a:hover{
     height:350px;
     object-fit:cover;
     border-radius:50%;
-    box-shadow:0 0 8px;
-    border:6px;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
 }
 
 /* MODULES */
 .modules{
     padding:80px 70px;
     text-align:center;
+    background:transparent;  /* IMPORTANT */
 }
 
 .modules h2{
@@ -125,10 +131,10 @@ nav a:hover{
 }
 
 .card{
-    background:#ffffff;
+    background:rgba(255,255,255,0.95);
     padding:30px;
     border-radius:12px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
     transition:0.3s ease;
 }
 
@@ -164,6 +170,7 @@ footer{
 
     .hero-image img{
         width:100%;
+        height:auto;
         margin-top:30px;
     }
 
