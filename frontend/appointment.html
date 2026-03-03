@@ -90,13 +90,27 @@
 
             <script>
             function showPopup() {
+
+                let name = document.querySelector("input[type='text']").value;
+                let phone = document.querySelector("input[type='tel']").value;
+                let date = document.querySelector("input[type='date']").value;
+
+                let message = "Hello " + name + 
+                                ", your appointment is booked for " + date + 
+                                ". Thank you!";
+
+                let whatsappURL = "https://wa.me/91" + phone + 
+                                  "?text=" + encodeURIComponent(message);
+
+                window.open(whatsappURL, "_blank");
+
                 document.getElementById("successPopup").style.display = "flex";
             }
 
             function closePopup() {
                 document.getElementById("successPopup").style.display = "none";
             }
-            </script>
+</script>
     </div>
 
     <!-- IMAGE SECTION -->
