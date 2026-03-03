@@ -1,0 +1,168 @@
+body{
+margin:0;
+font-family:'Segoe UI', sans-serif;
+
+background:url('../images/ap-bg.png');
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+position:relative;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* Balanced overlay so form is readable */
+body::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,0.35);
+z-index:-1;
+}
+
+/* Main Layout */
+.appointment-container{
+display:flex;
+gap:100px;
+align-items:center;
+}
+
+/* Form Card */
+.appointment-form-section{
+width:500px;
+background:white;
+padding:45px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.appointment-form-section h1{
+margin-bottom:5px;
+color:#1565c0;
+font-size:28px;
+}
+
+.subtitle{
+color:#777;
+margin-bottom:35px;
+font-size:14px;
+}
+
+/* Form Structure */
+form{
+display:flex;
+flex-direction:column;
+}
+
+.form-group{
+margin-bottom:20px;
+display:flex;
+flex-direction:column;
+}
+
+label{
+margin-bottom:6px;
+font-weight:500;
+color:#333;
+}
+
+input,select,textarea{
+padding:12px 14px;
+border-radius:8px;
+border:1px solid #e0e0e0;
+font-size:14px;
+transition:0.2s;
+background:#fafafa;
+}
+
+input:focus,select:focus,textarea:focus{
+outline:none;
+border-color:#1565c0;
+background:white;
+box-shadow:0 0 0 3px rgba(21,101,192,0.08);
+}
+
+textarea{
+resize:none;
+height:80px;
+}
+
+/* Button */
+.book-btn{
+margin-top:15px;
+padding:14px;
+border:none;
+border-radius:8px;
+background:#1565c0;
+color:white;
+font-size:15px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.book-btn:hover{
+background:#0d47a1;
+}
+
+/* Image Section */
+.appointment-image-section img{
+width:500px;
+height:500px;
+border-radius:50%;
+object-fit:cover;
+box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+/* POPUP BACKGROUND */
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+justify-content:center;
+align-items:center;
+}
+
+/* POPUP BOX */
+.popup-content{
+background:white;
+padding:40px;
+border-radius:15px;
+text-align:center;
+width:350px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+animation:fadeIn 0.3s ease;
+}
+
+.popup-content h2{
+color:#1565c0;
+margin-bottom:10px;
+}
+
+.popup-content button{
+margin-top:15px;
+padding:10px 20px;
+border:none;
+background:#1565c0;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+.popup-content button:hover{
+background:#0d47a1;
+}
+
+/* Animation */
+@keyframes fadeIn{
+from{transform:scale(0.8);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
