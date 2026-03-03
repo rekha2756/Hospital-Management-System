@@ -1,27 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HealthAxis HMS - Login</title>
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
-<body class="login-page">
+<body>
 
-    <div class="login-card">
-        <h1>HealthAxis HMS</h1>
-        <p class="subtitle">Smart Hospital Management</p>
+<div class="login-container">
+    
+    <h1 class="logo">🏥 HealthAxis HMS</h1>
+    <p class="subtitle">Smart Hospital Management System</p>
 
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder="Password">
+    <form action="dashboard.html" method="POST">
+        
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" placeholder="Enter your email" required>
+        </div>
 
-        <button>Login</button>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password" required>
+        </div>
 
-        <!-- ✅ Register Link -->
-        <p class="register-text">
-            If not registered?
-            <a href="register.html">Register</a>
+        <button type="submit" class="login-btn">
+            Login
+        </button>
+
+    </form>
+
+    <div class="links">
+        <p>Don't have an account? 
+            <a href="register.html">Register Here</a>
         </p>
 
+        <p>
+            <a href="#">Forgot Password?</a>
+        </p>
     </div>
+    
+    <div class="quote">
+        "YOUR HEALTH OUR PRIORITY"
+    </div>
+
+</div>
 
 </body>
 </html>
