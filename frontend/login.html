@@ -5,16 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HealthAxis HMS</title>
 
-<!-- Google Identity Services -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
 
 body{
 background:url("images/bg3.png") no-repeat center center fixed;
@@ -24,6 +18,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 padding:20px;
+overflow:hidden;
 }
 
 .register-card{
@@ -33,47 +28,19 @@ width:100%;
 padding:30px;
 border-radius:25px;
 box-shadow:0 20px 40px rgba(0,0,0,0.2);
+position:relative;
+z-index:2;
 }
 
-.health-quote{
-text-align:center;
-font-size:20px;
-font-weight:bold;
-color:#0b5e7a;
-margin-bottom:5px;
-}
+.health-quote{text-align:center;font-size:20px;font-weight:bold;color:#0b5e7a;margin-bottom:5px;}
+.health-quote span{display:block;font-size:13px;color:#4a7d90;margin-top:5px;}
 
-.health-quote span{
-display:block;
-font-size:13px;
-color:#4a7d90;
-margin-top:5px;
-}
+h2{text-align:center;color:#083d52;margin:10px 0;}
+.sub{text-align:center;color:#4d7a8c;margin-bottom:20px;font-size:14px;}
 
-h2{
-text-align:center;
-color:#083d52;
-margin:10px 0;
-}
+.reg-form{display:flex;flex-direction:column;gap:15px;}
 
-.sub{
-text-align:center;
-color:#4d7a8c;
-margin-bottom:20px;
-font-size:14px;
-}
-
-.reg-form{
-display:flex;
-flex-direction:column;
-gap:15px;
-}
-
-label{
-font-size:14px;
-color:#0e5066;
-margin-left:10px;
-}
+label{font-size:14px;color:#0e5066;margin-left:10px;}
 
 input{
 width:100%;
@@ -83,9 +50,7 @@ border:1.5px solid #cce3ec;
 outline:none;
 }
 
-input:focus{
-border-color:#1b6d84;
-}
+input:focus{border-color:#1b6d84;}
 
 .radio-group{
 display:flex;
@@ -102,11 +67,7 @@ gap:5px;
 font-size:14px;
 }
 
-.contact-hint{
-font-size:12px;
-color:#3d7c93;
-margin-left:15px;
-}
+.contact-hint{font-size:12px;color:#3d7c93;margin-left:15px;}
 
 .action-btn{
 background:#1b6d84;
@@ -119,22 +80,16 @@ font-weight:bold;
 margin-top:10px;
 }
 
-.action-btn:hover{
-background:#0f6079;
-}
+.action-btn:hover{background:#0f6079;}
 
-.divider{
-text-align:center;
-margin:20px 0;
-color:#5f8fa3;
-font-size:14px;
-}
+.divider{text-align:center;margin:20px 0;color:#5f8fa3;font-size:14px;}
 
+/* Smaller Google Button */
 .google-btn{
 display:flex;
 justify-content:center;
 align-items:center;
-gap:10px;
+gap:6px;
 width:100%;
 background:white;
 border:1.5px solid #cde3ed;
@@ -143,7 +98,14 @@ border-radius:30px;
 cursor:pointer;
 font-weight:600;
 color:#144f64;
+font-size:14px;
 transition:0.2s ease;
+}
+
+.google-btn img{
+width:12px;
+height:12px;
+object-fit:contain;
 }
 
 .google-btn:hover{
@@ -152,26 +114,8 @@ border-color:#1b6d84;
 box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
 
-.google-btn:active{
-transform:scale(0.97);
-}
-
-.google-btn img{
-width:16px;
-height:16px;
-}
-
-.login-redirect{
-text-align:center;
-margin-top:20px;
-font-size:14px;
-}
-
-.login-redirect a{
-color:#117a9e;
-text-decoration:none;
-font-weight:bold;
-}
+.login-redirect{text-align:center;margin-top:20px;font-size:14px;}
+.login-redirect a{color:#117a9e;text-decoration:none;font-weight:bold;}
 
 .verify-message{
 background:#e1f1f8;
@@ -182,27 +126,44 @@ color:#004d66;
 margin-top:10px;
 display:none;
 }
+
+/* 🎉 Confetti Animation */
+.confetti{
+position:fixed;
+width:10px;
+height:10px;
+top:-10px;
+animation:fall 3s linear forwards;
+z-index:1;
+}
+
+@keyframes fall{
+to{
+transform:translateY(100vh) rotate(360deg);
+opacity:0;
+}
+}
 </style>
 </head>
 
 <body>
 
-<div class="register-card" id="mainCard">
+<div class="register-card">
 
 <div class="health-quote">
 Your Health, Our Priority
-<span>registration · secure access</span>
+<span id="modeText">registration · secure access</span>
 </div>
 
 <h2>HealthAxis HMS</h2>
-<div class="sub">create your account</div>
+<div class="sub" id="formTitle">create your account</div>
 
 <form class="reg-form">
 
 <label id="contactLabel">📧 Email address</label>
 <input type="email" id="contactInput" required>
 
-<div class="radio-group">
+<div class="radio-group" id="radioGroup">
 <label><input type="radio" name="contactType" value="email" checked> Email</label>
 <label><input type="radio" name="contactType" value="mobile"> Mobile</label>
 </div>
@@ -216,7 +177,7 @@ Verification code will be sent to your email
 
 <div class="verify-message" id="verifyMessage"></div>
 
-<button type="button" class="action-btn" id="registerBtn">
+<button type="button" class="action-btn" id="mainActionBtn">
 Register & Get Verification
 </button>
 
@@ -235,16 +196,16 @@ Continue with Google
 </button>
 
 <div class="login-redirect">
-Already registered? <a href="#" id="loginLink">Login</a>
+<span id="toggleText">Already registered?</span> 
+<a href="#" id="toggleLink">Login</a>
 </div>
 
 </div>
 
 <script>
-
 let generatedOTP="";
+let isLoginMode=false;
 
-/* GOOGLE LOGIN INITIALIZE ON PAGE LOAD */
 window.onload = function () {
 google.accounts.id.initialize({
 client_id: "YOUR_GOOGLE_CLIENT_ID_HERE",
@@ -257,89 +218,92 @@ google.accounts.id.prompt();
 }
 
 function handleCredentialResponse(response){
+showConfetti();
 alert("Google Login Successful!");
-console.log(response);
 }
 
-/* REST OF YOUR ORIGINAL LOGIC */
+/* 🎉 Confetti Function */
+function showConfetti(){
+for(let i=0;i<80;i++){
+let conf=document.createElement("div");
+conf.classList.add("confetti");
+conf.style.left=Math.random()*100+"vw";
+conf.style.backgroundColor=`hsl(${Math.random()*360},70%,60%)`;
+conf.style.animationDuration=(2+Math.random()*2)+"s";
+document.body.appendChild(conf);
+setTimeout(()=>conf.remove(),4000);
+}
+}
 
-const contactInput=document.getElementById("contactInput");
-const emailRadio=document.querySelector('input[value="email"]');
-const mobileRadio=document.querySelector('input[value="mobile"]');
+const toggleLink=document.getElementById("toggleLink");
+const mainActionBtn=document.getElementById("mainActionBtn");
+const formTitle=document.getElementById("formTitle");
+const modeText=document.getElementById("modeText");
+const radioGroup=document.getElementById("radioGroup");
 const hintText=document.getElementById("hintText");
-const contactLabel=document.getElementById("contactLabel");
 const verifyMessage=document.getElementById("verifyMessage");
+const otpSection=document.getElementById("otpSection");
 
-function updateField(){
-if(mobileRadio.checked){
-contactInput.type="tel";
-contactLabel.innerText="📱 Mobile number";
-hintText.innerText="OTP will be sent to your mobile";
-}
-else{
-contactInput.type="email";
-contactLabel.innerText="📧 Email address";
-hintText.innerText="Verification code will be sent to your email";
-}
-}
-
-emailRadio.addEventListener("change",updateField);
-mobileRadio.addEventListener("change",updateField);
-
-document.getElementById("registerBtn").addEventListener("click",function(){
-
-let contactValue=contactInput.value.trim();
-let password=document.getElementById("password").value.trim();
+toggleLink.addEventListener("click",function(e){
+e.preventDefault();
+isLoginMode=!isLoginMode;
 
 verifyMessage.style.display="none";
+otpSection.style.display="none";
+
+if(isLoginMode){
+formTitle.innerText="login to your account";
+modeText.innerText="secure login access";
+mainActionBtn.innerText="Login";
+radioGroup.style.display="none";
+hintText.style.display="none";
+toggleLink.innerText="Register";
+document.getElementById("toggleText").innerText="New user?";
+}else{
+formTitle.innerText="create your account";
+modeText.innerText="registration · secure access";
+mainActionBtn.innerText="Register & Get Verification";
+radioGroup.style.display="flex";
+hintText.style.display="block";
+toggleLink.innerText="Login";
+document.getElementById("toggleText").innerText="Already registered?";
+}
+});
+
+mainActionBtn.addEventListener("click",function(){
+let contactValue=document.getElementById("contactInput").value.trim();
+let password=document.getElementById("password").value.trim();
 
 if(password.length < 8){
 alert("Password must be at least 8 characters");
 return;
 }
 
-if(mobileRadio.checked){
-if(!/^\d{10}$/.test(contactValue)){
-alert("Enter valid 10-digit mobile number");
-return;
+if(isLoginMode){
+if(contactValue!=="" && password.length>=8){
+showConfetti();
+alert("Login Successful!");
+}else{
+alert("Invalid Credentials");
 }
 }else{
-if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactValue)){
-alert("Enter valid email address");
-return;
-}
-}
-
 generatedOTP=Math.floor(100000 + Math.random()*900000).toString();
-
 verifyMessage.style.display="block";
 verifyMessage.innerText="Verification code sent successfully.";
-
-document.getElementById("otpSection").style.display="block";
-
+otpSection.style.display="block";
+}
 });
 
 function verifyOTP(){
 let entered=document.getElementById("otpInput").value.trim();
-
-if(entered===""){
-alert("Please enter OTP");
-return;
-}
-
 if(entered===generatedOTP){
+showConfetti();
 alert("Registration Successful!");
 location.reload();
 }else{
 alert("Invalid OTP");
 }
 }
-
-document.getElementById("loginLink").addEventListener("click",function(e){
-e.preventDefault();
-location.reload();
-});
-
 </script>
 
 </body>
