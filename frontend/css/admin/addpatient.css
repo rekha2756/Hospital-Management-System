@@ -1,0 +1,125 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+/* Container */
+.admin-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Header */
+.admin-header h1 {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 25px;
+  color: #2c3e50;
+}
+
+/* Form styling */
+.patient-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76,175,80,0.5);
+}
+
+/* Submit button */
+.add-btn {
+  width: fit-content;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s;
+}
+
+.add-btn:hover {
+  background-color: #45a049;
+}
+
+/* Success Message */
+.success-message {
+  margin-top: 20px;
+  padding: 12px 18px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* Back button */
+.back-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 16px;
+  background-color: #2196F3;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #0b7dda;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  .admin-container {
+    padding: 15px;
+    width: 95%;
+  }
+}

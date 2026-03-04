@@ -1,0 +1,68 @@
+/* Form container adjustments */
+.doctor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 10px;
+  background-color: #fdfdfd;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Form groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Submit button */
+.doctor-form button {
+  width: fit-content;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.3s;
+}
+
+.doctor-form button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .doctor-form {
+    width: 90%;
+    padding: 15px;
+  }
+}

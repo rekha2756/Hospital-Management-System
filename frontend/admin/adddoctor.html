@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Doctor</title>
+  <link rel="stylesheet" href="../css/admin/adddoctor.css"> <!-- Your CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="admin-container">
+    <header class="admin-header">
+      <h1>Add Doctor</h1>
+    </header>
+
+    <!-- Doctor Form -->
+    <form id="doctorForm" class="doctor-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Dr. John Doe" required>
+      </div>
+
+      <div class="form-group">
+        <label for="specialty">Specialty</label>
+        <select id="specialty" name="specialty" required>
+          <option value="">Select Specialty</option>
+          <option value="Cardiology">Cardiology</option>
+          <option value="Neurology">Neurology</option>
+          <option value="Orthopedic">Orthopedic</option>
+          <option value="Pediatrics">Pediatrics</option>
+          <option value="Dermatology">Dermatology</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="doctor@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" placeholder="9876543210" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Set a password" required>
+      </div>
+
+      <button type="submit" class="add-btn"><i class="fas fa-plus"></i> Add Doctor</button>
+    </form>
+
+    <!-- Success message -->
+    <div id="successMessage" class="success-message" style="display:none;">
+      ✅ Doctor successfully added!
+    </div>
+
+    <!-- Back button -->
+    <a href="doctors.html" class="back-btn">← Back to Doctors List</a>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const form = document.getElementById('doctorForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent actual submission
+      successMessage.style.display = 'block'; // Show success message
+      form.reset(); // Clear form
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Lab Reports</title>
+  <link rel="stylesheet" href="../css/admin/labreports.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="admin-container">
+  <header class="admin-header">
+    <h1>Lab Reports</h1>
+  </header>
+
+  <!-- Search & Filters -->
+  <div class="search-filter">
+    <input type="text" id="searchInput" placeholder="Search by Patient, Report ID, Test...">
+    <select id="departmentFilter">
+      <option value="">All Departments</option>
+      <option value="Pathology">Pathology</option>
+      <option value="Radiology">Radiology</option>
+    </select>
+    <select id="statusFilter">
+      <option value="">All Statuses</option>
+      <option value="Pending">Pending</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Under Review">Under Review</option>
+      <option value="Completed">Completed</option>
+    </select>
+    <input type="date" id="dateFilter">
+  </div>
+
+  <!-- Lab Reports Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Report ID</th>
+          <th>Patient Name / ID</th>
+          <th>Physician</th>
+          <th>Test Name</th>
+          <th>Specimen</th>
+          <th>Collection Date</th>
+          <th>Status</th>
+          <th>Result</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="labReportsTable">
+        <tr>
+          <td>LR-1001</td>
+          <td>John Doe / P-001</td>
+          <td>Dr. Smith</td>
+          <td>CBC</td>
+          <td>Blood</td>
+          <td>2026-03-04</td>
+          <td><span class="badge pending">Pending</span></td>
+          <td class="normal">Normal</td>
+          <td class="actions">
+            <button class="view-btn"><i class="fas fa-eye"></i></button>
+            <button class="download-btn"><i class="fas fa-file-pdf"></i></button>
+            <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+            <span class="audit" title="Last edited by Admin on 2026-03-04 10:30">ℹ️</span>
+          </td>
+        </tr>
+        <tr>
+          <td>LR-1002</td>
+          <td>Mary Jane / P-002</td>
+          <td>Dr. Adams</td>
+          <td>Lipid Profile</td>
+          <td>Blood</td>
+          <td>2026-03-03</td>
+          <td><span class="badge completed">Completed</span></td>
+          <td class="abnormal">Abnormal ⚠️</td>
+          <td class="actions">
+            <button class="view-btn"><i class="fas fa-eye"></i></button>
+            <button class="download-btn"><i class="fas fa-file-pdf"></i></button>
+            <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+            <span class="audit" title="Last edited by Admin on 2026-03-03 14:20">ℹ️</span>
+          </td>
+        </tr>
+        <!-- More rows dynamically -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Simple frontend search filter
+  const searchInput = document.getElementById('searchInput');
+  const labReportsTable = document.getElementById('labReportsTable');
+
+  searchInput.addEventListener('keyup', function() {
+    const filter = searchInput.value.toLowerCase();
+    Array.from(labReportsTable.rows).forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(filter) ? '' : 'none';
+    });
+  });
+</script>
+
+</body>
+</html>

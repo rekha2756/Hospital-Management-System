@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile - Light Mode</title>
+    <link rel="stylesheet" href="../css/admin/adminprofile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="admin-wrapper">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="avatar-wrapper">
+                    <img src="https://i.pravatar.cc/150?u=alice" alt="Admin Avatar">
+                    <button class="edit-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                    </button>
+                </div>
+                <div class="header-info">
+                    <h1>Alice Chen</h1>
+                    <span class="badge">Super Admin</span>
+                </div>
+            </div>
+
+            <form class="profile-form">
+                <div class="form-section">
+                    <h3>Account Information</h3>
+                    <div class="input-grid">
+                        <div class="field">
+                            <label>Full Name</label>
+                            <input type="text" value="Alice Chen">
+                        </div>
+                        <div class="field">
+                            <label>Email Address</label>
+                            <input type="email" value="alice.chen@corp.com">
+                        </div>
+                        <div class="field">
+                            <label>Username</label>
+                            <input type="text" value="alice_admin">
+                        </div>
+                        <div class="field">
+                            <label>Phone Number</label>
+                            <input type="text" placeholder="+1 (555) 000-0000">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>System Preferences</h3>
+                    <div class="input-grid">
+                        <div class="field">
+                            <label>Timezone</label>
+                            <select>
+                                <option>Pacific Time (PT)</option>
+                                <option>Eastern Time (ET)</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Language</label>
+                            <select>
+                                <option>English (US)</option>
+                                <option>Spanish</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <button type="button" class="btn-ghost">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
