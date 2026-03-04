@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HealthAxis HMS</title>
 
+<!-- Google Identity Services -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
@@ -18,18 +19,34 @@ display:flex;
 justify-content:center;
 align-items:center;
 padding:20px;
-overflow:hidden;
 }
 
 .register-card{
 background:rgba(255,255,255,0.95);
 max-width:420px;
 width:100%;
+max-height:90vh;
 padding:30px;
 border-radius:25px;
 box-shadow:0 20px 40px rgba(0,0,0,0.2);
 position:relative;
 z-index:2;
+overflow-y:auto;
+}
+
+/* స్క్రోల్బార్ స్టైల్ */
+.register-card::-webkit-scrollbar {
+width: 6px;
+}
+
+.register-card::-webkit-scrollbar-track {
+background: #eaf5f9;
+border-radius: 10px;
+}
+
+.register-card::-webkit-scrollbar-thumb {
+background: #1b6d84;
+border-radius: 10px;
 }
 
 .health-quote{text-align:center;font-size:20px;font-weight:bold;color:#0b5e7a;margin-bottom:5px;}
@@ -84,7 +101,7 @@ margin-top:10px;
 
 .divider{text-align:center;margin:20px 0;color:#5f8fa3;font-size:14px;}
 
-/* Smaller Google Button */
+/* Google Button */
 .google-btn{
 display:flex;
 justify-content:center;
@@ -103,15 +120,14 @@ transition:0.2s ease;
 }
 
 .google-btn img{
-width:12px;
-height:12px;
+width:20px;
+height:20px;
 object-fit:contain;
 }
 
 .google-btn:hover{
 background:#f1f7fa;
 border-color:#1b6d84;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
 
 .login-redirect{text-align:center;margin-top:20px;font-size:14px;}
@@ -125,6 +141,14 @@ font-size:13px;
 color:#004d66;
 margin-top:10px;
 display:none;
+}
+
+/* Google One Tap */
+#google-one-tap-container {
+position:fixed;
+top:20px;
+right:20px;
+z-index:1000;
 }
 
 /* 🎉 Confetti Animation */
@@ -143,10 +167,21 @@ transform:translateY(100vh) rotate(360deg);
 opacity:0;
 }
 }
+
+/* మొబైల్ పరికరాల కోసం */
+@media (max-width: 480px) {
+.register-card {
+padding: 20px;
+max-height: 85vh;
+}
+}
 </style>
 </head>
 
 <body>
+
+<!-- Google One Tap Container -->
+<div id="google-one-tap-container"></div>
 
 <div class="register-card">
 
@@ -158,22 +193,37 @@ Your Health, Our Priority
 <h2>HealthAxis HMS</h2>
 <div class="sub" id="formTitle">create your account</div>
 
-<form class="reg-form">
+<form class="reg-form" id="registrationForm">
 
-<label id="contactLabel">📧 Email address</label>
-<input type="email" id="contactInput" required>
+<!-- Full Name Field - Only for Registration -->
+<div id="fullNameField">
+<label>👤 Full Name</label>
+<input type="text" id="fullName" placeholder="Enter your full name">
+</div>
 
+<!-- Contact Selection - Always Visible -->
 <div class="radio-group" id="radioGroup">
 <label><input type="radio" name="contactType" value="email" checked> Email</label>
 <label><input type="radio" name="contactType" value="mobile"> Mobile</label>
 </div>
 
+<!-- Dynamic Contact Input - Always Visible -->
+<label id="contactLabel">📧 Email address</label>
+<input type="email" id="contactInput" placeholder="Enter your email" required>
+
 <div class="contact-hint" id="hintText">
 Verification code will be sent to your email
 </div>
 
+<!-- Password Field - Always Visible -->
 <label>🔐 Password</label>
-<input type="password" id="password" minlength="8" required>
+<input type="password" id="password" placeholder="Enter password (min 8 chars)" minlength="8" required>
+
+<!-- Confirm Password Field - Only for Registration -->
+<div id="confirmPasswordField">
+<label>🔐 Confirm Password</label>
+<input type="password" id="confirmPassword" placeholder="Re-enter your password">
+</div>
 
 <div class="verify-message" id="verifyMessage"></div>
 
@@ -190,10 +240,24 @@ Register & Get Verification
 
 <div class="divider">OR</div>
 
-<button class="google-btn" onclick="googleLogin()">
-<img src="https://developers.google.com/identity/images/g-logo.png">
-Continue with Google
-</button>
+<!-- Google Sign-In Button -->
+<div id="g_id_onload"
+     data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup"
+     data-callback="handleCredentialResponse"
+     data-auto_prompt="false">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard"
+     data-shape="rectangular"
+     data-theme="outline"
+     data-text="continue_with"
+     data-size="large"
+     data-logo_alignment="left"
+     data-width="300">
+</div>
 
 <div class="login-redirect">
 <span id="toggleText">Already registered?</span> 
@@ -203,108 +267,250 @@ Continue with Google
 </div>
 
 <script>
-let generatedOTP="";
-let isLoginMode=false;
+let generatedOTP = "";
+let isLoginMode = false;
 
-window.onload = function () {
-google.accounts.id.initialize({
-client_id: "YOUR_GOOGLE_CLIENT_ID_HERE",
-callback: handleCredentialResponse
-});
+window.onload = function() {
+    // Initialize Google One Tap
+    google.accounts.id.initialize({
+        client_id: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+        callback: handleCredentialResponse,
+        auto_select: false,
+        cancel_on_tap_outside: true
+    });
+
+    // Add event listeners for radio buttons
+    const emailRadio = document.querySelector('input[value="email"]');
+    const mobileRadio = document.querySelector('input[value="mobile"]');
+    const contactInput = document.getElementById('contactInput');
+    const contactLabel = document.getElementById('contactLabel');
+    const hintText = document.getElementById('hintText');
+
+    emailRadio.addEventListener('change', function() {
+        if(this.checked) {
+            contactLabel.innerHTML = '📧 Email address';
+            contactInput.type = 'email';
+            contactInput.placeholder = 'Enter your email';
+            hintText.innerText = 'Verification code will be sent to your email';
+        }
+    });
+
+    mobileRadio.addEventListener('change', function() {
+        if(this.checked) {
+            contactLabel.innerHTML = '📱 Mobile number';
+            contactInput.type = 'tel';
+            contactInput.placeholder = 'Enter 10-digit mobile number';
+            hintText.innerText = 'Verification code will be sent via SMS';
+        }
+    });
+
+    // Show One Tap if user was previously signed in
+    setTimeout(() => {
+        google.accounts.id.prompt((notification) => {
+            if (notification.isNotDisplayed()) {
+                console.log('One Tap not displayed');
+            }
+            if (notification.isSkippedMoment()) {
+                console.log('One Tap skipped');
+            }
+            if (notification.isDismissedMoment()) {
+                console.log('One Tap dismissed');
+            }
+        });
+    }, 1000);
 };
 
-function googleLogin(){
-google.accounts.id.prompt();
+// Handle Google credential response
+function handleCredentialResponse(response) {
+    // Decode the JWT token
+    const responsePayload = parseJwt(response.credential);
+    
+    console.log("Google User:", responsePayload);
+    
+    // Show success message with user info
+    showConfetti();
+    alert(`Welcome ${responsePayload.name}!\nSigned in with ${responsePayload.email}`);
+    
+    // Auto-fill the form with Google user data (optional)
+    document.getElementById('fullName').value = responsePayload.name || '';
+    document.getElementById('contactInput').value = responsePayload.email || '';
+    
+    // You can send this token to your backend for verification
+    // verifyGoogleToken(response.credential);
 }
 
-function handleCredentialResponse(response){
-showConfetti();
-alert("Google Login Successful!");
+// Helper function to parse JWT token
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
+
+// Optional: Send token to backend
+function verifyGoogleToken(credential) {
+    fetch('/api/auth/google', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: credential })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Backend response:', data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 /* 🎉 Confetti Function */
 function showConfetti(){
-for(let i=0;i<80;i++){
-let conf=document.createElement("div");
-conf.classList.add("confetti");
-conf.style.left=Math.random()*100+"vw";
-conf.style.backgroundColor=`hsl(${Math.random()*360},70%,60%)`;
-conf.style.animationDuration=(2+Math.random()*2)+"s";
-document.body.appendChild(conf);
-setTimeout(()=>conf.remove(),4000);
-}
+    for(let i=0;i<80;i++){
+        let conf=document.createElement("div");
+        conf.classList.add("confetti");
+        conf.style.left=Math.random()*100+"vw";
+        conf.style.backgroundColor=`hsl(${Math.random()*360},70%,60%)`;
+        conf.style.animationDuration=(2+Math.random()*2)+"s";
+        document.body.appendChild(conf);
+        setTimeout(()=>conf.remove(),4000);
+    }
 }
 
 const toggleLink=document.getElementById("toggleLink");
 const mainActionBtn=document.getElementById("mainActionBtn");
 const formTitle=document.getElementById("formTitle");
 const modeText=document.getElementById("modeText");
-const radioGroup=document.getElementById("radioGroup");
-const hintText=document.getElementById("hintText");
 const verifyMessage=document.getElementById("verifyMessage");
 const otpSection=document.getElementById("otpSection");
+const fullNameField = document.getElementById('fullNameField');
+const confirmPasswordField = document.getElementById('confirmPasswordField');
+
+function updateFormForMode(loginMode) {
+    if(loginMode) {
+        formTitle.innerText = "login to your account";
+        modeText.innerText = "secure login access";
+        mainActionBtn.innerText = "Login";
+        fullNameField.style.display = "none";
+        confirmPasswordField.style.display = "none";
+        toggleLink.innerText = "Register";
+        document.getElementById("toggleText").innerText = "New user?";
+    } else {
+        formTitle.innerText = "create your account";
+        modeText.innerText = "registration · secure access";
+        mainActionBtn.innerText = "Register & Get Verification";
+        fullNameField.style.display = "block";
+        confirmPasswordField.style.display = "block";
+        toggleLink.innerText = "Login";
+        document.getElementById("toggleText").innerText = "Already registered?";
+    }
+}
 
 toggleLink.addEventListener("click",function(e){
-e.preventDefault();
-isLoginMode=!isLoginMode;
+    e.preventDefault();
+    isLoginMode = !isLoginMode;
 
-verifyMessage.style.display="none";
-otpSection.style.display="none";
+    verifyMessage.style.display="none";
+    otpSection.style.display="none";
 
-if(isLoginMode){
-formTitle.innerText="login to your account";
-modeText.innerText="secure login access";
-mainActionBtn.innerText="Login";
-radioGroup.style.display="none";
-hintText.style.display="none";
-toggleLink.innerText="Register";
-document.getElementById("toggleText").innerText="New user?";
-}else{
-formTitle.innerText="create your account";
-modeText.innerText="registration · secure access";
-mainActionBtn.innerText="Register & Get Verification";
-radioGroup.style.display="flex";
-hintText.style.display="block";
-toggleLink.innerText="Login";
-document.getElementById("toggleText").innerText="Already registered?";
-}
+    updateFormForMode(isLoginMode);
 });
 
 mainActionBtn.addEventListener("click",function(){
-let contactValue=document.getElementById("contactInput").value.trim();
-let password=document.getElementById("password").value.trim();
+    let fullName = document.getElementById("fullName").value.trim();
+    let contactValue=document.getElementById("contactInput").value.trim();
+    let password=document.getElementById("password").value.trim();
+    let confirmPassword = document.getElementById("confirmPassword").value.trim();
+    let contactType = document.querySelector('input[name="contactType"]:checked').value;
 
-if(password.length < 8){
-alert("Password must be at least 8 characters");
-return;
-}
+    if(isLoginMode){
+        // Login validation
+        if(contactValue === ""){
+            if(contactType === "email"){
+                alert("Please enter your email address");
+            } else {
+                alert("Please enter your mobile number");
+            }
+            return;
+        }
 
-if(isLoginMode){
-if(contactValue!=="" && password.length>=8){
-showConfetti();
-alert("Login Successful!");
-}else{
-alert("Invalid Credentials");
-}
-}else{
-generatedOTP=Math.floor(100000 + Math.random()*900000).toString();
-verifyMessage.style.display="block";
-verifyMessage.innerText="Verification code sent successfully.";
-otpSection.style.display="block";
-}
+        if(contactType === "mobile" && !/^\d{10}$/.test(contactValue)){
+            alert("Please enter a valid 10-digit mobile number");
+            return;
+        }
+
+        if(contactType === "email" && !contactValue.includes('@')){
+            alert("Please enter a valid email address");
+            return;
+        }
+
+        if(password.length < 8){
+            alert("Password must be at least 8 characters");
+            return;
+        }
+
+        showConfetti();
+        alert("Login Successful!");
+    } else {
+        // Registration validation
+        if(fullName === ""){
+            alert("Please enter your full name");
+            return;
+        }
+
+        if(contactValue === ""){
+            if(contactType === "email"){
+                alert("Please enter your email address");
+            } else {
+                alert("Please enter your mobile number");
+            }
+            return;
+        }
+
+        if(contactType === "mobile" && !/^\d{10}$/.test(contactValue)){
+            alert("Please enter a valid 10-digit mobile number");
+            return;
+        }
+
+        if(contactType === "email" && !contactValue.includes('@')){
+            alert("Please enter a valid email address");
+            return;
+        }
+
+        if(password.length < 8){
+            alert("Password must be at least 8 characters");
+            return;
+        }
+
+        if(password !== confirmPassword){
+            alert("Passwords do not match!");
+            return;
+        }
+
+        generatedOTP = Math.floor(100000 + Math.random()*900000).toString();
+        verifyMessage.style.display="block";
+        verifyMessage.innerText="Verification code sent successfully.";
+        otpSection.style.display="block";
+    }
 });
 
 function verifyOTP(){
-let entered=document.getElementById("otpInput").value.trim();
-if(entered===generatedOTP){
-showConfetti();
-alert("Registration Successful!");
-location.reload();
-}else{
-alert("Invalid OTP");
-}
+    let entered=document.getElementById("otpInput").value.trim();
+    if(entered===generatedOTP){
+        showConfetti();
+        alert("Registration Successful!\nWelcome " + document.getElementById("fullName").value.trim());
+        location.reload();
+    }else{
+        alert("Invalid OTP");
+    }
 }
 </script>
+
+<!-- Important: Replace YOUR_GOOGLE_CLIENT_ID with your actual Google Client ID -->
+<!-- Get it from: https://console.cloud.google.com/apis/credentials -->
 
 </body>
 </html>
