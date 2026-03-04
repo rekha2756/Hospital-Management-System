@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Appointments</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #4CAF50; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>All Appointments</h1>
+
+    <table id="appointmentsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hospital</th>
+                <th>Doctor</th>
+                <th>Patient</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dynamic rows will go here -->
+        </tbody>
+    </table>
+
+    <script>
+        async function loadAppointments() {
+            try {
+                const res = await fetch("/admin/appointments");
+                const data = await res.json();
+                const tbody = document.querySelector("#appointmentsTable tbody");
+                tbody.innerHTML = "";
+
+                if (data.success && data.data.length > 0) {
+                    data.data.forEach(app => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${app.appointment_id}</td>
+                            <td>${app.hospital_name}</td>
+                            <td>${app.doctor_name}</td>
+                            <td>${app.patient_name}</td>
+                            <td>${app.date}</td>
+                            <td>${app.time}</td>
+                            <td>${app.status}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } else {
+                    tbody.innerHTML = "<tr><td colspan='7'>No appointments found.</td></tr>";
+                }
+            } catch (error) {
+                console.error("Error loading appointments:", error);
+            }
+        }
+
+        loadAppointments();
+    </script>
+</body>
+</html>
