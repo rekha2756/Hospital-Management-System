@@ -1,236 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HMS Doctor Dashboard</title>
-  <link rel="stylesheet" href="CSS/doctordashboard.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="../css/doctor/doctor.css">
+    <link rel="stylesheet" href="../css/doctor/doctordashboard.css">
 </head>
 <body>
-  <div class="container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">HEALTHAXIS</div>
-      <div class="doctor-profile">
-        <div class="doctor-avatar">
-          <img src="https://via.placeholder.com/80" alt="Dr. Marttin Deo">
-        </div>
-        <h2>Dr. Marttin Deo</h2>
-        <p class="qualification">MBBS, FCPS - MD (Medicine), MCPS.</p>
-      </div>
-
-      <div class="stats-sidebar">
-        <div class="stat-item">
-          <h3>Total Patient</h3>
-          <div class="stat-value">2000+</div>
-          <p class="stat-label">Till Today</p>
-        </div>
-
-        <div class="stat-item">
-          <h3>Today Patient</h3>
-          <div class="stat-value">068</div>
-          <p class="stat-label">21 Dec-2021</p>
-        </div>
-
-        <div class="stat-item">
-          <h3>Today Appointments</h3>
-          <div class="stat-value">085</div>
-          <p class="stat-label">21 Dec-2021</p>
-        </div>
-      </div>
-
-      <div class="summary-section">
-        <h3>Patients Summary December 2021</h3>
-        
-        <div class="appointment-page">
-          <div class="page-item">
-            <i class="fas fa-calendar-check"></i>
-            <span>Appointment Page</span>
-          </div>
-          <div class="page-item">
-            <i class="fas fa-user"></i>
-            <span>Profile</span>
-          </div>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>🏥 Doctor Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="doctordashboard.html" class="active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="docappointments.html">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointments</span>
+                </a>
+                <a href="pendinglabreports.html">
+                    <i class="fas fa-flask"></i>
+                    <span>Lab Reports</span>
+                </a>
+                <a href="actions.html">
+                    <i class="fas fa-tasks"></i>
+                    <span>Actions</span>
+                </a>
+                <a href="docprofile.html">
+                    <i class="fas fa-user-md"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="logout-btn" onclick="showLogoutModal()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
         </div>
 
-        <div class="payments">
-          <h4>Payments</h4>
-          <div class="payment-stats">
-            <div class="payment-item">
-              <span class="label">New Patients</span>
-              <span class="value">45</span>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div class="header-left">
+                    <h1>Dashboard Overview</h1>
+                    <p>Welcome back, <span id="doctorName">Dr. Priya Patel</span></p>
+                </div>
+                <div class="header-right">
+                    <div class="notification-badge" onclick="showNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notificationCount">5</span>
+                    </div>
+                    <div class="doctor-profile-mini" onclick="window.location.href='docprofile.html'">
+                        <img src="../images/doctor-avatar.jpg" alt="Doctor" onerror="this.src='https://ui-avatars.com/api/?name=Doctor&background=1e3a8a&color=fff&size=40'">
+                    </div>
+                </div>
             </div>
-            <div class="payment-item">
-              <span class="label">Old Patients</span>
-              <span class="value">128</span>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="todayAppointments">24</h3>
+                        <p>Today's Appointments</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pendingReports">8</h3>
+                        <p>Pending Reports</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="completedToday">16</h3>
+                        <p>Completed Today</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalPatients">156</h3>
+                        <p>Total Patients</p>
+                    </div>
+                </div>
             </div>
-            <div class="payment-item">
-              <span class="label">Total Patients</span>
-              <span class="value">173</span>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-grid">
+                    <a href="docappointments.html" class="action-card">
+                        <i class="fas fa-calendar-plus"></i>
+                        <span>New Appointment</span>
+                    </a>
+                    <a href="pendinglabreports.html" class="action-card">
+                        <i class="fas fa-file-medical"></i>
+                        <span>Review Reports</span>
+                    </a>
+                    <a href="actions.html" class="action-card">
+                        <i class="fas fa-prescription"></i>
+                        <span>Write Prescription</span>
+                    </a>
+                    <a href="docprofile.html" class="action-card">
+                        <i class="fas fa-user-edit"></i>
+                        <span>Update Profile</span>
+                    </a>
+                </div>
             </div>
-          </div>
+
+            <!-- Recent Appointments -->
+            <div class="recent-section">
+                <div class="section-header">
+                    <h2>Recent Appointments</h2>
+                    <a href="docappointments.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="table-container">
+                    <table class="appointments-table">
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Time</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentAppointmentsBody">
+                            <tr>
+                                <td>
+                                    <div class="patient-info-cell">
+                                        <div class="patient-avatar-small">RS</div>
+                                        <div>
+                                            <div class="patient-name">Rahul Sharma</div>
+                                            <div class="patient-id">#PAT001</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>10:30 AM</td>
+                                <td>Chest Pain</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                                <td>
+                                    <button class="action-icon-btn" onclick="viewAppointment('APT001')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="patient-info-cell">
+                                        <div class="patient-avatar-small">NS</div>
+                                        <div>
+                                            <div class="patient-name">Neha Singh</div>
+                                            <div class="patient-id">#PAT002</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>11:45 AM</td>
+                                <td>Headache</td>
+                                <td><span class="status-badge completed">Completed</span></td>
+                                <td>
+                                    <button class="action-icon-btn" onclick="viewAppointment('APT002')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="patient-info-cell">
+                                        <div class="patient-avatar-small">AV</div>
+                                        <div>
+                                            <div class="patient-name">Amit Verma</div>
+                                            <div class="patient-id">#PAT003</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>02:15 PM</td>
+                                <td>Fever</td>
+                                <td><span class="status-badge in-progress">In Progress</span></td>
+                                <td>
+                                    <button class="action-icon-btn" onclick="viewAppointment('APT003')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div class="logout">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <!-- Today Appointment Section -->
-      <section class="today-appointment">
-        <h2>Today Appointment</h2>
-        
-        <div class="appointment-list">
-          <div class="appointment-item">
-            <div class="patient-info">
-              <h4>M.J. Mical</h4>
-              <p class="diagnosis">Health Checkup</p>
+    <!-- Logout Confirmation Modal -->
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-sign-out-alt"></i> Logout</h2>
+                <span class="close" onclick="closeModal('logoutModal')">&times;</span>
             </div>
-            <div class="appointment-time">12:30 PM</div>
-          </div>
-
-          <div class="appointment-item">
-            <div class="patient-info">
-              <h4>Sanath Deo</h4>
-              <p class="diagnosis">Health Checkup</p>
+            <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
             </div>
-            <div class="appointment-time">01:00 PM</div>
-          </div>
-
-          <div class="appointment-item">
-            <div class="patient-info">
-              <h4>Loeara Phanj</h4>
-              <p class="diagnosis">Report</p>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('logoutModal')">Cancel</button>
+                <button class="btn-primary" onclick="logout()">Logout</button>
             </div>
-            <div class="appointment-time">01:30 PM</div>
-          </div>
-
-          <div class="appointment-item">
-            <div class="patient-info">
-              <h4>Komola Haris</h4>
-              <p class="diagnosis">Common Cold</p>
-            </div>
-            <div class="appointment-time">01:30 PM</div>
-          </div>
         </div>
+    </div>
 
-        <a href="#" class="see-all">See All →</a>
-      </section>
-
-      <!-- Next Patient Details -->
-      <section class="next-patient">
-        <h2>Next Patient Details</h2>
-        
-        <div class="patient-details-grid">
-          <div class="patient-name-section">
-            <h3>Sanath Deo</h3>
-            <p class="diagnosis">Health Checkup</p>
-          </div>
-
-          <div class="details-row">
-            <div class="detail-item">
-              <span class="label">D. O.B</span>
-              <span class="value">15 January 1989</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Male</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">50 Kg</span>
-            </div>
-          </div>
-
-          <div class="details-row">
-            <div class="detail-item">
-              <span class="label">Last Appointment</span>
-              <span class="value">15 Dec - 2021</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Height</span>
-              <span class="value">172 cm</span>
-            </div>
-          </div>
-
-          <div class="details-row">
-            <div class="detail-item">
-              <span class="label">Patient ID</span>
-              <span class="value">022009020005</span>
-            </div>
-          </div>
-
-          <div class="details-row">
-            <div class="detail-item">
-              <span class="label">Weight</span>
-              <span class="value">59 Kg</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Sex</span>
-              <span class="value">Male</span>
-            </div>
-          </div>
-
-          <div class="details-row">
-            <div class="detail-item">
-              <span class="label">Reg. Date</span>
-              <span class="value">10 Dec 2021</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Bottom Grid -->
-      <div class="bottom-grid">
-        <!-- Patient History -->
-        <div class="patient-history">
-          <h2>Patient History</h2>
-          <div class="history-tags">
-            <span class="tag">Asthma</span>
-            <span class="tag">Hypertonic</span>
-            <span class="tag">Fever</span>
-            <span class="tag">Cold</span>
-          </div>
-          <div class="history-actions">
-            <button class="action-btn"><i class="fas fa-file"></i> Document</button>
-            <button class="action-btn"><i class="fas fa-comment"></i> Chat</button>
-          </div>
-        </div>
-
-        <!-- Last Prescriptions -->
-        <div class="last-prescriptions">
-          <h2>Last Prescriptions</h2>
-          <div class="prescription-item">
-            <p>Amoxicillin 500mg - 2 times daily</p>
-            <span class="date">20 Dec 2021</span>
-          </div>
-          <div class="prescription-item">
-            <p>Paracetamol 650mg - as needed</p>
-            <span class="date">18 Dec 2021</span>
-          </div>
-          <div class="prescription-item">
-            <p>Vitamin D3 - 1 daily</p>
-            <span class="date">15 Dec 2021</span>
-          </div>
-        </div>
-
-        <!-- Calendar -->
-        <div class="calendar">
-          <h2>Calendar</h2>
-          <div class="calendar-header">
-            <span>Sa</span><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span>
-          </div>
-          <div class="calendar-dates">
-            <span>18</span><span>19</span><span>20</span><span class="active">21</span><span>22</span><span>23</span><span>24</span>
-            <span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
-            <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+    <script src="../js/doctor/doctordashboard.js"></script>
 </body>
 </html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Doctor Profile</title>
+<link rel="stylesheet" href="../css/doctor/doctor.css">
+</head>
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+<h2>🏥 HMS</h2>
+<nav>
+<a href="doctor.html">Dashboard</a>
+<a href="docappointments.html">Appointments</a>
+<a href="pendinglabreports.html">Lab Reports</a>
+<a href="actions.html">Actions</a>
+<a href="docprofile.html" class="active">Profile</a>
+</nav>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</aside>
+
+<div class="main">
+<header class="topbar">
+<input type="text" placeholder="Search..." class="search-box">
+<span>Dr. Priya</span>
+</header>
+
+<section class="content">
+<h1>Doctor Profile</h1>
+<div class="card">
+Name: Dr. Priya<br>
+Specialization: Cardiologist<br>
+Experience: 8 Years
+</div>
+</section>
+
+</div>
+</div>
+
+<script>
+function logout(){
+window.location.href="../index.html";
+}
+</script>
+
+</body>
+</html>

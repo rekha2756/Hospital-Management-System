@@ -1,0 +1,27 @@
+@import url("doctor.css");
+
+.profile-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.profile-card p {
+    margin: 10px 0;
+}
+
+.edit-btn {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    background: #1e40af;
+}

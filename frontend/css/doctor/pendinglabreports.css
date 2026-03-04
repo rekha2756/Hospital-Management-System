@@ -1,0 +1,29 @@
+@import url("doctor.css");
+
+.main-content h1 {
+    margin-bottom: 20px;
+}
+
+.report-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-card button {
+    padding: 8px 15px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.report-card button:hover {
+    background: #1e40af;
+}

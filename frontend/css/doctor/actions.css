@@ -1,0 +1,35 @@
+@import url("doctor.css");
+
+.action-box {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.action-box button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.approve {
+    background: #16a34a;
+    color: white;
+}
+
+.reject {
+    background: #dc2626;
+    color: white;
+}
+
+.approve:hover {
+    background: #15803d;
+}
+
+.reject:hover {
+    background: #b91c1c;
+}
