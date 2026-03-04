@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Prescription</title>
+    <link rel="stylesheet" href="css/prescription.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="prescription-card">
+
+        <h2>Hospital Management System</h2>
+        <p class="subtitle">Generate Prescription</p>
+
+        <!-- Patient Details -->
+        <div class="section">
+            <h3>Patient Details</h3>
+
+            <div class="row">
+                <input type="text" placeholder="Patient Name">
+                <input type="text" placeholder="Patient ID">
+            </div>
+
+            <div class="row">
+                <input type="number" placeholder="Age">
+                <select>
+                    <option>Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+                <input type="date">
+            </div>
+        </div>
+
+        <!-- Diagnosis -->
+        <div class="section">
+            <h3>Diagnosis</h3>
+            <textarea placeholder="Enter Diagnosis"></textarea>
+        </div>
+
+        <!-- Medicines -->
+        <div class="section">
+            <h3>Medicines</h3>
+
+            <table id="medicineTable">
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Dosage</th>
+                    <th>Duration</th>
+                    <th>Instructions</th>
+                    <th>Action</th>
+                </tr>
+
+                <tr>
+                    <td><input type="text" placeholder="Medicine"></td>
+                    <td><input type="text" placeholder="500mg"></td>
+                    <td><input type="text" placeholder="5 days"></td>
+                    <td><input type="text" placeholder="After Food"></td>
+                    <td><button type="button" onclick="removeRow(this)">X</button></td>
+                </tr>
+            </table>
+
+            <button class="add-btn" onclick="addRow()">+ Add Medicine</button>
+        </div>
+
+        <!-- Follow Up -->
+        <div class="section">
+            <h3>Follow Up</h3>
+            <input type="date">
+        </div>
+
+        <button class="submit-btn">Save Prescription</button>
+
+    </div>
+</div>
+
+<script>
+function addRow() {
+    var table = document.getElementById("medicineTable");
+    var row = table.insertRow();
+
+    row.innerHTML = `
+        <td><input type="text" placeholder="Medicine"></td>
+        <td><input type="text" placeholder="500mg"></td>
+        <td><input type="text" placeholder="5 days"></td>
+        <td><input type="text" placeholder="After Food"></td>
+        <td><button type="button" onclick="removeRow(this)">X</button></td>
+    `;
+}
+
+function removeRow(btn) {
+    var row = btn.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
+</script>
+
+</body>
+</html>

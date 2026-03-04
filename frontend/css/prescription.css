@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.prescription-card {
+    background: white;
+    width: 900px;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+h2 {
+    text-align: center;
+    color: #2c5364;
+}
+
+.subtitle {
+    text-align: center;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section h3 {
+    margin-bottom: 10px;
+    color: #2c5364;
+}
+
+.row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+input, select, textarea {
+    padding: 8px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    height: 80px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #2c5364;
+    color: white;
+    padding: 8px;
+}
+
+td {
+    padding: 8px;
+}
+
+.add-btn {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: #2c5364;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background: #0f2027;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
