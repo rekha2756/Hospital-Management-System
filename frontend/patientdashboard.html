@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HMS Patient Dashboard</title>
+  <link rel="stylesheet" href="css/patient dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>HEALTHAXIS</h2>
+      </div>
+      
+      <div class="welcome-text">
+        <p>Welcome,</p>
+        <h3>Jane Cooper</h3>
+      </div>
+
+      <div class="info-box">
+        <p class="info-label">Assigned Doctor:</p>
+        <p class="info-value">Dr. Evelyn Reed</p>
+      </div>
+
+      <div class="info-box">
+        <p class="info-label">Next Appointment:</p>
+        <p class="info-value">Mar 21, 2026, 10:00 AM</p>
+      </div>
+
+      <div class="notifications-sidebar">
+        <i class="fas fa-bell"></i>
+        <span>Notifications</span>
+      </div>
+
+      <nav class="nav-menu">
+        <ul>
+          <li class="active"><i class="fas fa-user"></i> Patient Dashboard</li>
+          <li><i class="fas fa-calendar-alt"></i> Appointments</li>
+          <li><i class="fas fa-clock"></i> Upcoming Appointments</li>
+          <li><i class="fas fa-chart-line"></i> Timeline View</li>
+          <li><i class="fas fa-prescription"></i> Prescriptions</li>
+          <li><i class="fas fa-th"></i> Grid View</li>
+          <li><i class="fas fa-flask"></i> Lab Results</li>
+          <li><i class="fas fa-prescription-bottle"></i> Prescriptions</li>
+          <li><i class="fas fa-comment"></i> Messaging</li>
+          <li><i class="fas fa-credit-card"></i> Billing</li>
+          <li><i class="fas fa-cog"></i> Settings</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Row - Mon Card -->
+      <div class="appointment-row">
+        <div class="appointment-card">
+          <div class="card-header">
+            <span class="day">Mon</span>
+            <span class="date">Jan 1</span>
+          </div>
+          <div class="card-body">
+            <h4>Upcoming Consultation</h4>
+            <p class="time">Mar 21, 2026, 10:00 AM</p>
+            <a href="#" class="view-details">View Details</a>
+            <div class="medications">
+              <span class="med">5mcg</span>
+              <span class="med">Medication...</span>
+              <span class="med">30mg</span>
+              <span class="med">Medication...</span>
+            </div>
+            <div class="test-info">
+              <span class="test-name">Macra Test</span>
+              <span class="test-type">Test</span>
+              <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="appointment-card">
+          <div class="card-header">
+            <span class="day">Tue</span>
+            <span class="date">Jan 2</span>
+          </div>
+          <div class="card-body">
+            <h4>Upcoming Consultation</h4>
+            <p class="time">Mar 21, 2026, 10:00 AM</p>
+            <a href="#" class="view-details">View Details</a>
+            <div class="medications">
+              <span class="med">Dosage: 1m</span>
+              <span class="med">Refill Status</span>
+            </div>
+            <div class="test-info">
+              <span class="test-name">Physiophcminant Test</span>
+              <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="appointment-card">
+          <div class="card-header">
+            <span class="day">Mon</span>
+            <span class="date">Jan 1</span>
+          </div>
+          <div class="card-body">
+            <h4>Upcoming Consultation</h4>
+            <p class="time">Mar 21, 2026, 10:00 AM</p>
+            <a href="#" class="view-details">View Details</a>
+            <div class="medications">
+              <span class="med">5mcg</span>
+              <span class="med">10mcg</span>
+            </div>
+            <div class="test-info">
+              <span class="test-name">Flatin Test</span>
+              <span class="test-type">Tests</span>
+              <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Row - Additional Cards -->
+      <div class="appointment-row">
+        <div class="appointment-card">
+          <div class="card-body">
+            <div class="test-info">
+              <span class="test-name">Lizze Test</span>
+              <span class="test-type">Results</span>
+              <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+            </div>
+            <div class="refill-status">
+              <span>View Details</span>
+              <span>Refill: good</span>
+              <span>Refill Status</span>
+            </div>
+            <div class="action-links">
+              <a href="#">View</a>
+              <a href="#">View</a>
+              <a href="#">View</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="appointment-card">
+          <div class="card-body">
+            <div class="lab-results">
+              <h4>Lab Results</h4>
+              <div class="lab-item">
+                <span>Billing</span>
+                <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+              </div>
+              <div class="lab-item">
+                <span>Medical History</span>
+                <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="appointment-card">
+          <div class="card-body">
+            <h4>Recent Test</h4>
+            <p>Recent Name</p>
+            <div class="summary-item">
+              <span>Summary</span>
+              <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Third Row - Reports and Billing -->
+      <div class="reports-row">
+        <div class="reports-section">
+          <h3>Recent Reports</h3>
+          <div class="report-item">
+            <span>Test Test (40%1)</span>
+            <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          </div>
+          <div class="report-item">
+            <span>Download for Past Reports</span>
+            <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          </div>
+          <div class="report-item">
+            <span>Reports Summary</span>
+            <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          </div>
+        </div>
+
+        <div class="reports-section">
+          <h3>Recent Payment</h3>
+          <div class="payment-item">
+            <span>$175.75</span>
+          </div>
+          <div class="payment-item">
+            <span>-$50.00</span>
+          </div>
+          <h3 style="margin-top: 20px;">Pending Bills</h3>
+          <div class="payment-item">
+            <span>$120.00</span>
+          </div>
+          <div class="payment-item">
+            <span>$0.00</span>
+          </div>
+        </div>
+
+        <div class="reports-section">
+          <h3>Resuling Test</h3>
+          <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          <p class="note">Download for Summary</p>
+          
+          <h3 style="margin-top: 20px;">Recent Test at 10:00 AM</h3>
+          <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          <p class="note">Download for Summary</p>
+        </div>
+      </div>
+
+      <!-- Fourth Row - Patient Summary -->
+      <div class="summary-row">
+        <div class="summary-box">
+          <h3>Patient Summary</h3>
+          <div class="summary-item">
+            <span>Recent Test</span>
+            <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          </div>
+          <div class="summary-item">
+            <span>Download for Summary</span>
+            <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          </div>
+          <div class="summary-item">
+            <span>Recent Tests at 10:00 AM</span>
+            <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          </div>
+        </div>
+
+        <div class="summary-box">
+          <h3>Recent Test</h3>
+          <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          <p class="note">Download for Summary</p>
+          
+          <h3 style="margin-top: 20px;">Pending Bills</h3>
+          <p class="note">$120.00</p>
+          <p class="note">$0.00</p>
+        </div>
+
+        <div class="summary-box">
+          <h3>Patient Summary</h3>
+          <div class="summary-item">
+            <span>Recent Test</span>
+            <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          </div>
+          <div class="summary-item">
+            <span>Recent Tests at 10:00 AM</span>
+            <a href="#" class="download"><i class="fas fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

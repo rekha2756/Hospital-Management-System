@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HMS Admin Dashboard</title>
+  <link rel="stylesheet" href="CSS/dashboard.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <div class="logo">🏥 HEALTHAXIS</div>
+  <div class="menu">
+    <a class="active">Dashboard</a>
+    <a>Patients</a>
+    <a>Doctors</a>
+    <a>Appointments</a>
+    <a>Reports</a>
+  </div>
+  <button class="logout">Logout</button>
+</div>
+
+<!-- Cards -->
+<div class="cards">
+  <div class="card blue">
+    <h3>Total Patients</h3>
+    <h1>1,254</h1>
+    <p>+12 Today</p>
+  </div>
+
+  <div class="card green">
+    <h3>Total Doctors</h3>
+    <h1>48</h1>
+    <p>Available</p>
+  </div>
+
+  <div class="card orange">
+    <h3>Appointments</h3>
+    <h1>32</h1>
+    <p>Today</p>
+  </div>
+
+  <div class="card purple">
+    <h3>Available Beds</h3>
+    <h1>18</h1>
+    <p class="danger">3 Occupied</p>
+  </div>
+</div>
+
+<!-- Charts Section -->
+<div class="charts">
+  <div class="chart-box">
+    <h3>Patients per Day</h3>
+    <div class="chart-placeholder">Chart Here</div>
+  </div>
+
+  <div class="chart-box">
+    <h3>Department-wise Patients</h3>
+    <div class="chart-placeholder">Chart Here</div>
+  </div>
+</div>
+
+<!-- Bottom Section -->
+<div class="bottom">
+
+  <div class="activity">
+    <h3>Recent Activity</h3>
+    <p>New Patient: John Doe <span>10 mins ago</span></p>
+    <p>Appointment: Mary <span>1 hour ago</span></p>
+    <p>Discharged: Robert <span>3 hours ago</span></p>
+  </div>
+
+  <div class="schedule">
+    <h3>Appointment Schedule</h3>
+    <table>
+      <tr>
+        <th>Patient</th>
+        <th>Doctor</th>
+        <th>Time</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>John Doe</td>
+        <td>Dr. Smith</td>
+        <td>10:00 AM</td>
+        <td class="done">Completed</td>
+      </tr>
+      <tr>
+        <td>Mary Jane</td>
+        <td>Dr. Adams</td>
+        <td>11:30 AM</td>
+        <td class="pending">Pending</td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>
