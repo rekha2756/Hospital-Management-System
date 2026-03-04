@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HealthAxis HMS</title>
+<title>HealthAxis HMS - Multi-Role Login</title>
 
 <!-- Google Identity Services -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Arial, sans-serif;}
 
 body{
 background:url("images/bg3.png") no-repeat center center fixed;
@@ -21,9 +23,10 @@ align-items:center;
 padding:20px;
 }
 
+/* Login Card */
 .register-card{
 background:rgba(255,255,255,0.95);
-max-width:420px;
+max-width:450px;
 width:100%;
 max-height:90vh;
 padding:30px;
@@ -34,37 +37,62 @@ z-index:2;
 overflow-y:auto;
 }
 
-/* స్క్రోల్బార్ స్టైల్ */
-.register-card::-webkit-scrollbar {
-width: 6px;
+/* Role Selection Cards */
+.role-selection {
+display:flex;
+gap:15px;
+margin:25px 0;
+justify-content:center;
 }
 
-.register-card::-webkit-scrollbar-track {
-background: #eaf5f9;
-border-radius: 10px;
+.role-card {
+flex:1;
+text-align:center;
+padding:15px 5px;
+background:#f5f9fc;
+border-radius:15px;
+cursor:pointer;
+border:2px solid transparent;
+transition:0.3s;
 }
 
-.register-card::-webkit-scrollbar-thumb {
-background: #1b6d84;
-border-radius: 10px;
+.role-card i {
+font-size:30px;
+display:block;
+margin-bottom:8px;
 }
 
-.health-quote{text-align:center;font-size:20px;font-weight:bold;color:#0b5e7a;margin-bottom:5px;}
-.health-quote span{display:block;font-size:13px;color:#4a7d90;margin-top:5px;}
+.role-card span {
+font-size:14px;
+font-weight:bold;
+}
 
-h2{text-align:center;color:#083d52;margin:10px 0;}
-.sub{text-align:center;color:#4d7a8c;margin-bottom:20px;font-size:14px;}
+.role-card.admin i {color:#1b6d84;}
+.role-card.doctor i {color:#2e7d32;}
+.role-card.patient i {color:#ed6c02;}
 
+.role-card.active {
+border-color:#1b6d84;
+background:#e1f0f7;
+transform:scale(1.02);
+}
+
+.role-card.admin.active {border-color:#1b6d84;}
+.role-card.doctor.active {border-color:#2e7d32;}
+.role-card.patient.active {border-color:#ed6c02;}
+
+/* Form Styles */
 .reg-form{display:flex;flex-direction:column;gap:15px;}
 
 label{font-size:14px;color:#0e5066;margin-left:10px;}
 
 input{
 width:100%;
-padding:10px 15px;
+padding:12px 15px;
 border-radius:30px;
 border:1.5px solid #cce3ec;
 outline:none;
+font-size:14px;
 }
 
 input:focus{border-color:#1b6d84;}
@@ -95,9 +123,15 @@ border-radius:30px;
 cursor:pointer;
 font-weight:bold;
 margin-top:10px;
+font-size:16px;
 }
 
 .action-btn:hover{background:#0f6079;}
+
+.action-btn.doctor-btn {background:#2e7d32;}
+.action-btn.doctor-btn:hover {background:#1b5e20;}
+.action-btn.patient-btn {background:#ed6c02;}
+.action-btn.patient-btn:hover {background:#b85e00;}
 
 .divider{text-align:center;margin:20px 0;color:#5f8fa3;font-size:14px;}
 
@@ -110,7 +144,7 @@ gap:6px;
 width:100%;
 background:white;
 border:1.5px solid #cde3ed;
-padding:10px;
+padding:12px;
 border-radius:30px;
 cursor:pointer;
 font-weight:600;
@@ -133,25 +167,210 @@ border-color:#1b6d84;
 .login-redirect{text-align:center;margin-top:20px;font-size:14px;}
 .login-redirect a{color:#117a9e;text-decoration:none;font-weight:bold;}
 
-.verify-message{
-background:#e1f1f8;
-padding:8px 12px;
-border-radius:20px;
+/* Error Message */
+.error-message {
+background:#ffebee;
+color:#c62828;
+padding:10px;
+border-radius:30px;
 font-size:13px;
-color:#004d66;
+text-align:center;
 margin-top:10px;
+display:none;
+border:1px solid #ef9a9a;
+}
+
+/* Dashboard Styles */
+.dashboard {
 display:none;
 }
 
-/* Google One Tap */
-#google-one-tap-container {
+.dashboard-header {
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+padding-bottom:15px;
+border-bottom:2px solid #e1f0f7;
+}
+
+.dashboard-header h2 {
+color:#083d52;
+}
+
+.dashboard-header button {
+background:#1b6d84;
+color:white;
+border:none;
+padding:8px 20px;
+border-radius:30px;
+cursor:pointer;
+}
+
+.stats-container {
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+margin-bottom:25px;
+}
+
+.stat-card {
+background:#f5f9fc;
+padding:15px;
+border-radius:15px;
+text-align:center;
+}
+
+.stat-card i {
+font-size:24px;
+color:#1b6d84;
+margin-bottom:8px;
+}
+
+.stat-card h3 {
+font-size:24px;
+color:#083d52;
+}
+
+.stat-card p {
+color:#5f8fa3;
+font-size:12px;
+}
+
+/* Tables */
+.table-container {
+overflow-x:auto;
+margin-top:20px;
+}
+
+table {
+width:100%;
+border-collapse:collapse;
+}
+
+th {
+background:#1b6d84;
+color:white;
+padding:12px;
+font-size:14px;
+}
+
+td {
+padding:12px;
+border-bottom:1px solid #e1f0f7;
+font-size:13px;
+}
+
+tr:hover {
+background:#f5f9fc;
+}
+
+.status-badge {
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+}
+
+.status-pending {background:#fff3e0;color:#ed6c02;}
+.status-confirmed {background:#e3f2fd;color:#0b5e7a;}
+.status-completed {background:#e8f5e8;color:#2e7d32;}
+
+/* Action Buttons */
+.action-icons i {
+margin:0 5px;
+cursor:pointer;
+color:#5f8fa3;
+}
+
+.action-icons i:hover {color:#1b6d84;}
+
+/* Modal */
+.modal {
+display:none;
 position:fixed;
-top:20px;
-right:20px;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
 z-index:1000;
 }
 
-/* 🎉 Confetti Animation */
+.modal-content {
+background:white;
+width:90%;
+max-width:600px;
+margin:50px auto;
+padding:25px;
+border-radius:25px;
+max-height:80vh;
+overflow-y:auto;
+}
+
+.close {
+float:right;
+font-size:24px;
+cursor:pointer;
+color:#5f8fa3;
+}
+
+/* Tabs */
+.tabs {
+display:flex;
+gap:10px;
+margin:20px 0;
+border-bottom:2px solid #e1f0f7;
+padding-bottom:10px;
+overflow-x:auto;
+}
+
+.tab {
+padding:8px 15px;
+cursor:pointer;
+color:#5f8fa3;
+white-space:nowrap;
+}
+
+.tab.active {
+color:#1b6d84;
+font-weight:bold;
+border-bottom:2px solid #1b6d84;
+}
+
+/* Search Bar */
+.search-bar {
+display:flex;
+gap:10px;
+margin:20px 0;
+}
+
+.search-bar input {
+flex:1;
+}
+
+/* Patient Details */
+.patient-info {
+background:#f5f9fc;
+padding:15px;
+border-radius:15px;
+margin:15px 0;
+}
+
+.patient-info p {
+margin:8px 0;
+color:#083d52;
+}
+
+.prescription-item, .report-item {
+background:white;
+padding:12px;
+border-radius:10px;
+margin:8px 0;
+border:1px solid #e1f0f7;
+}
+
+/* Confetti Animation */
 .confetti{
 position:fixed;
 width:10px;
@@ -168,11 +387,14 @@ opacity:0;
 }
 }
 
-/* మొబైల్ పరికరాల కోసం */
+/* Mobile Responsive */
 @media (max-width: 480px) {
 .register-card {
-padding: 20px;
-max-height: 85vh;
+padding:20px;
+}
+.role-selection {
+flex-direction:column;
+gap:10px;
 }
 }
 </style>
@@ -180,194 +402,1711 @@ max-height: 85vh;
 
 <body>
 
-<!-- Google One Tap Container -->
-<div id="google-one-tap-container"></div>
-
-<div class="register-card">
-
+<!-- Login Card -->
+<div class="register-card" id="loginCard">
 <div class="health-quote">
 Your Health, Our Priority
-<span id="modeText">registration · secure access</span>
+<span id="modeText">select your role</span>
 </div>
 
 <h2>HealthAxis HMS</h2>
-<div class="sub" id="formTitle">create your account</div>
 
-<form class="reg-form" id="registrationForm">
-
-<!-- Full Name Field - Only for Registration -->
-<div id="fullNameField">
-<label>👤 Full Name</label>
-<input type="text" id="fullName" placeholder="Enter your full name">
+<!-- Role Selection -->
+<div class="role-selection">
+<div class="role-card admin active" onclick="selectRole('admin')" id="roleAdmin">
+<i class="fas fa-user-shield"></i>
+<span>Admin</span>
+</div>
+<div class="role-card doctor" onclick="selectRole('doctor')" id="roleDoctor">
+<i class="fas fa-user-md"></i>
+<span>Doctor</span>
+</div>
+<div class="role-card patient" onclick="selectRole('patient')" id="rolePatient">
+<i class="fas fa-user"></i>
+<span>Patient</span>
+</div>
 </div>
 
-<!-- Contact Selection - Always Visible -->
-<div class="radio-group" id="radioGroup">
-<label><input type="radio" name="contactType" value="email" checked> Email</label>
-<label><input type="radio" name="contactType" value="mobile"> Mobile</label>
-</div>
+<!-- Login Form -->
+<form class="reg-form" id="loginForm">
+<label id="contactLabel">📧 Email / Username</label>
+<input type="text" id="username" placeholder="Enter your email or username" required>
 
-<!-- Dynamic Contact Input - Always Visible -->
-<label id="contactLabel">📧 Email address</label>
-<input type="email" id="contactInput" placeholder="Enter your email" required>
-
-<div class="contact-hint" id="hintText">
-Verification code will be sent to your email
-</div>
-
-<!-- Password Field - Always Visible -->
 <label>🔐 Password</label>
-<input type="password" id="password" placeholder="Enter password (min 8 chars)" minlength="8" required>
+<input type="password" id="password" placeholder="Enter your password" required>
 
-<!-- Confirm Password Field - Only for Registration -->
-<div id="confirmPasswordField">
-<label>🔐 Confirm Password</label>
-<input type="password" id="confirmPassword" placeholder="Re-enter your password">
+<!-- Error Message -->
+<div class="error-message" id="loginError"></div>
+
+<!-- Register Link for Patients -->
+<div id="registerLink" style="text-align:right; margin-top:5px; display:none;">
+<a href="#" onclick="showRegister()">New user? Register here</a>
 </div>
 
-<div class="verify-message" id="verifyMessage"></div>
+<button type="button" class="action-btn" id="loginBtn" onclick="handleLogin()">
+Login
+</button>
+</form>
 
-<button type="button" class="action-btn" id="mainActionBtn">
-Register & Get Verification
+<!-- Registration Form (Hidden by default) -->
+<form class="reg-form" id="registerForm" style="display:none;">
+<label>👤 Full Name</label>
+<input type="text" id="regFullName" placeholder="Enter your full name" required>
+
+<label>📧 Email</label>
+<input type="email" id="regEmail" placeholder="Enter your email" required>
+
+<label>📱 Mobile</label>
+<input type="tel" id="regMobile" placeholder="Enter 10-digit mobile" required>
+
+<label>🔐 Password</label>
+<input type="password" id="regPassword" placeholder="Create password (min 8 chars)" minlength="8" required>
+
+<label>🔐 Confirm Password</label>
+<input type="password" id="regConfirmPassword" placeholder="Re-enter password" required>
+
+<div class="error-message" id="registerError"></div>
+
+<button type="button" class="action-btn patient-btn" onclick="handleRegister()">
+Register
 </button>
 
-<div id="otpSection" style="display:none;">
-<input type="text" id="otpInput" placeholder="Enter OTP" style="margin-top:10px;">
-<button type="button" class="action-btn" style="margin-top:10px;" onclick="verifyOTP()">Verify OTP</button>
+<div style="text-align:center; margin-top:15px;">
+Already have account? <a href="#" onclick="showLogin()">Login here</a>
 </div>
-
 </form>
 
 <div class="divider">OR</div>
 
-<!-- Google Sign-In Button -->
-<div id="g_id_onload"
-     data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-callback="handleCredentialResponse"
-     data-auto_prompt="false">
+<button class="google-btn" onclick="googleLogin()">
+<img src="https://developers.google.com/identity/images/g-logo.png">
+Continue with Google
+</button>
 </div>
 
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="rectangular"
-     data-theme="outline"
-     data-text="continue_with"
-     data-size="large"
-     data-logo_alignment="left"
-     data-width="300">
+<!-- Admin Dashboard -->
+<div class="dashboard" id="adminDashboard">
+<div class="dashboard-header">
+<h2>Admin Dashboard</h2>
+<div>
+<span id="adminName">Admin</span>
+<button onclick="logout()">Logout</button>
+</div>
 </div>
 
-<div class="login-redirect">
-<span id="toggleText">Already registered?</span> 
-<a href="#" id="toggleLink">Login</a>
+<!-- Stats -->
+<div class="stats-container">
+<div class="stat-card">
+<i class="fas fa-users"></i>
+<h3 id="totalPatients">0</h3>
+<p>Total Patients</p>
+</div>
+<div class="stat-card">
+<i class="fas fa-user-md"></i>
+<h3 id="totalDoctors">0</h3>
+<p>Total Doctors</p>
+</div>
+<div class="stat-card">
+<i class="fas fa-calendar-check"></i>
+<h3 id="todayAppointments">0</h3>
+<p>Today's Appointments</p>
+</div>
+<div class="stat-card">
+<i class="fas fa-rupee-sign"></i>
+<h3 id="todayRevenue">₹0</h3>
+<p>Today's Revenue</p>
+</div>
 </div>
 
+<!-- Tabs -->
+<div class="tabs">
+<div class="tab active" onclick="switchAdminTab('dashboard')">Dashboard</div>
+<div class="tab" onclick="switchAdminTab('billing')">Billing</div>
+<div class="tab" onclick="switchAdminTab('doctors')">Doctors</div>
+<div class="tab" onclick="switchAdminTab('appointments')">Appointments</div>
+</div>
+
+<!-- Search Bar -->
+<div class="search-bar">
+<input type="text" id="adminSearch" placeholder="Search patients, doctors...">
+<button class="action-btn" style="width:auto; padding:12px 20px;" onclick="searchAdmin()">Search</button>
+</div>
+
+<!-- Content Area -->
+<div id="adminContent">
+<!-- Dashboard View -->
+<div id="adminDashboardView">
+<h3>Recent Appointments</h3>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Patient</th>
+<th>Doctor</th>
+<th>Date</th>
+<th>Time</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="adminAppointmentsList">
+<tr>
+<td colspan="6">Loading...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Billing View (Hidden initially) -->
+<div id="adminBillingView" style="display:none;">
+<h3>Billing Management</h3>
+<button class="action-btn" style="width:auto; margin:10px 0;" onclick="generateBill()">+ Generate New Bill</button>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Bill No</th>
+<th>Patient</th>
+<th>Date</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="billsList">
+<tr>
+<td colspan="6">No bills yet</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Doctors View -->
+<div id="adminDoctorsView" style="display:none;">
+<h3>Doctors Management</h3>
+<button class="action-btn" style="width:auto; margin:10px 0;" onclick="showAddDoctorModal()">+ Add New Doctor</button>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Specialization</th>
+<th>Email</th>
+<th>Mobile</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="doctorsList">
+<tr>
+<td colspan="6">Loading...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Appointments View -->
+<div id="adminAppointmentsView" style="display:none;">
+<h3>All Appointments</h3>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Patient</th>
+<th>Doctor</th>
+<th>Date</th>
+<th>Time</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="allAppointmentsList">
+<tr>
+<td colspan="6">Loading...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Doctor Dashboard -->
+<div class="dashboard" id="doctorDashboard">
+<div class="dashboard-header">
+<h2>Doctor Dashboard</h2>
+<div>
+<span id="doctorName">Dr. </span>
+<button onclick="logout()">Logout</button>
+</div>
+</div>
+
+<!-- Stats -->
+<div class="stats-container">
+<div class="stat-card">
+<i class="fas fa-users"></i>
+<h3 id="doctorTotalPatients">0</h3>
+<p>Total Patients</p>
+</div>
+<div class="stat-card">
+<i class="fas fa-calendar-check"></i>
+<h3 id="doctorTodayAppointments">0</h3>
+<p>Today's Appointments</p>
+</div>
+<div class="stat-card">
+<i class="fas fa-hourglass-half"></i>
+<h3 id="doctorPendingCases">0</h3>
+<p>Pending Cases</p>
+</div>
+<div class="stat-card">
+<i class="fas fa-check-circle"></i>
+<h3 id="doctorCompletedToday">0</h3>
+<p>Completed Today</p>
+</div>
+</div>
+
+<!-- Search Bar -->
+<div class="search-bar">
+<input type="text" id="doctorSearch" placeholder="Search patient by name, ID, phone...">
+<button class="action-btn doctor-btn" style="width:auto; padding:12px 20px;" onclick="searchPatient()">Search</button>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+<div class="tab active" onclick="switchDoctorTab('patients')">Patient List</div>
+<div class="tab" onclick="switchDoctorTab('appointments')">Appointments</div>
+<div class="tab" onclick="switchDoctorTab('diagnosis')">Add Diagnosis</div>
+<div class="tab" onclick="switchDoctorTab('prescriptions')">Prescriptions</div>
+</div>
+
+<!-- Content Area -->
+<div id="doctorContent">
+<!-- Patient List View -->
+<div id="doctorPatientsView">
+<h3>Patient List</h3>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Age</th>
+<th>Appointment Time</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="doctorPatientList">
+<tr>
+<td colspan="6">Loading...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Appointments View -->
+<div id="doctorAppointmentsView" style="display:none;">
+<h3>Today's Appointments</h3>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Patient</th>
+<th>Time</th>
+<th>Reason</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="doctorAppointmentsList">
+<tr>
+<td colspan="5">Loading...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Add Diagnosis View -->
+<div id="doctorDiagnosisView" style="display:none;">
+<h3>Add Diagnosis</h3>
+<div class="patient-info" id="selectedPatientInfo">
+<p><strong>Patient:</strong> <span id="diagnosisPatientName">Select a patient</span></p>
+<p><strong>ID:</strong> <span id="diagnosisPatientId"></span></p>
+</div>
+
+<form id="diagnosisForm">
+<label>📋 Diagnosis</label>
+<textarea id="diagnosis" rows="3" style="width:100%; padding:10px; border-radius:15px; border:1.5px solid #cce3ec;"></textarea>
+
+<label>👁️ Observations</label>
+<textarea id="observations" rows="3" style="width:100%; padding:10px; border-radius:15px; border:1.5px solid #cce3ec;"></textarea>
+
+<label>📝 Notes</label>
+<textarea id="notes" rows="2" style="width:100%; padding:10px; border-radius:15px; border:1.5px solid #cce3ec;"></textarea>
+
+<label>💊 Prescribe Medicines</label>
+<div id="medicineList">
+<div class="medicine-item" style="display:flex; gap:10px; margin-bottom:10px;">
+<input type="text" placeholder="Medicine name" style="flex:2;">
+<input type="text" placeholder="Dosage" style="flex:1;">
+<input type="text" placeholder="Duration" style="flex:1;">
+<i class="fas fa-plus-circle" style="color:#2e7d32; cursor:pointer; align-self:center;" onclick="addMedicineField()"></i>
+</div>
+</div>
+
+<label>📎 Upload Reports</label>
+<input type="file" multiple accept=".pdf,.jpg,.png">
+
+<button type="button" class="action-btn doctor-btn" style="margin-top:20px;" onclick="saveDiagnosis()">Save Diagnosis</button>
+</form>
+</div>
+
+<!-- Prescriptions View -->
+<div id="doctorPrescriptionsView" style="display:none;">
+<h3>Recent Prescriptions</h3>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Patient</th>
+<th>Diagnosis</th>
+<th>Medicines</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="prescriptionsList">
+<tr>
+<td colspan="5">No prescriptions yet</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Patient Dashboard -->
+<div class="dashboard" id="patientDashboard">
+<div class="dashboard-header">
+<h2>Patient Portal</h2>
+<div>
+<span id="patientName"></span>
+<button onclick="logout()">Logout</button>
+</div>
+</div>
+
+<!-- Stats -->
+<div class="stats-container">
+<div class="stat-card">
+<i class="fas fa-calendar-alt"></i>
+<h3 id="patientUpcomingAppointments">0</h3>
+<p>Upcoming Appointments</p>
+</div>
+<div class="stat-card">
+<i class="fas fa-file-prescription"></i>
+<h3 id="patientTotalPrescriptions">0</h3>
+<p>Prescriptions</p>
+</div>
+<div class="stat-card">
+<i class="fas fa-flask"></i>
+<h3 id="patientTotalReports">0</h3>
+<p>Test Reports</p>
+</div>
+<div class="stat-card">
+<i class="fas fa-rupee-sign"></i>
+<h3 id="patientPendingBills">₹0</h3>
+<p>Pending Payment</p>
+</div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+<div class="tab active" onclick="switchPatientTab('appointments')">Appointments</div>
+<div class="tab" onclick="switchPatientTab('prescriptions')">Prescriptions</div>
+<div class="tab" onclick="switchPatientTab('reports')">Test Reports</div>
+<div class="tab" onclick="switchPatientTab('history')">Medical History</div>
+<div class="tab" onclick="switchPatientTab('bills')">Bills</div>
+<div class="tab" onclick="switchPatientTab('profile')">Profile</div>
+</div>
+
+<!-- Content Area -->
+<div id="patientContent">
+<!-- Appointments View -->
+<div id="patientAppointmentsView">
+<h3>My Appointments</h3>
+<button class="action-btn patient-btn" style="width:auto; margin:10px 0;" onclick="showBookAppointmentModal()">+ Book New Appointment</button>
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Doctor</th>
+<th>Date</th>
+<th>Time</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="patientAppointmentsList">
+<tr>
+<td colspan="5">No appointments</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Prescriptions View -->
+<div id="patientPrescriptionsView" style="display:none;">
+<h3>My Prescriptions</h3>
+<div id="prescriptionsList" class="prescriptions-container">
+<!-- Dynamic content will be inserted here -->
+</div>
+</div>
+
+<!-- Test Reports View -->
+<div id="patientReportsView" style="display:none;">
+<h3>My Test Reports</h3>
+<div id="reportsList" class="reports-container">
+<!-- Dynamic content will be inserted here -->
+</div>
+</div>
+
+<!-- Medical History View -->
+<div id="patientHistoryView" style="display:none;">
+<h3>Medical History</h3>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Doctor</th>
+<th>Diagnosis</th>
+<th>Treatment</th>
+</tr>
+</thead>
+<tbody id="patientHistoryList">
+<tr>
+<td colspan="4">No history available</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Bills View -->
+<div id="patientBillsView" style="display:none;">
+<h3>My Bills</h3>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Bill No</th>
+<th>Date</th>
+<th>Description</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="patientBillsList">
+<tr>
+<td colspan="6">No bills available</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Profile View -->
+<div id="patientProfileView" style="display:none;">
+<h3>My Profile</h3>
+<form id="profileForm">
+<div style="text-align:center; margin:20px;">
+<i class="fas fa-user-circle" style="font-size:80px; color:#1b6d84;"></i>
+</div>
+
+<label>📧 Email</label>
+<input type="email" id="profileEmail" readonly>
+
+<label>📱 Mobile</label>
+<input type="tel" id="profileMobile">
+
+<label>📍 Address</label>
+<textarea id="profileAddress" rows="2" style="width:100%; padding:10px; border-radius:15px; border:1.5px solid #cce3ec;"></textarea>
+
+<label>📅 Date of Birth</label>
+<input type="date" id="profileDob">
+
+<label>⚥ Gender</label>
+<select id="profileGender" style="width:100%; padding:12px; border-radius:30px; border:1.5px solid #cce3ec;">
+<option value="male">Male</option>
+<option value="female">Female</option>
+<option value="other">Other</option>
+</select>
+
+<button type="button" class="action-btn patient-btn" style="margin-top:20px;" onclick="updateProfile()">Update Profile</button>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Add Doctor Modal -->
+<div id="addDoctorModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeAddDoctorModal()">&times;</span>
+<h3>Add New Doctor</h3>
+<form id="addDoctorForm">
+<label>👤 Full Name</label>
+<input type="text" id="doctorName" placeholder="Enter doctor's full name" required>
+
+<label>🔬 Specialization</label>
+<input type="text" id="doctorSpecialization" placeholder="e.g., Cardiologist" required>
+
+<label>📧 Email</label>
+<input type="email" id="doctorEmail" placeholder="Enter email" required>
+
+<label>📱 Mobile</label>
+<input type="tel" id="doctorMobile" placeholder="Enter 10-digit mobile" required>
+
+<label>🔐 Password</label>
+<input type="password" id="doctorPassword" placeholder="Create password" minlength="8" required>
+
+<button type="button" class="action-btn" onclick="addDoctor()">Add Doctor</button>
+</form>
+</div>
+</div>
+
+<!-- Book Appointment Modal -->
+<div id="appointmentModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeAppointmentModal()">&times;</span>
+<h3>Book New Appointment</h3>
+<form id="appointmentForm">
+<label>👨‍⚕️ Select Doctor</label>
+<select id="appointmentDoctor" style="width:100%; padding:12px; border-radius:30px; border:1.5px solid #cce3ec; margin-bottom:15px;">
+<option value="">Choose doctor</option>
+</select>
+
+<label>📅 Date</label>
+<input type="date" id="appointmentDate" style="margin-bottom:15px;">
+
+<label>⏰ Time</label>
+<input type="time" id="appointmentTime" style="margin-bottom:15px;">
+
+<label>📝 Reason for Visit</label>
+<textarea id="appointmentReason" rows="3" style="width:100%; padding:10px; border-radius:15px; border:1.5px solid #cce3ec; margin-bottom:15px;"></textarea>
+
+<button type="button" class="action-btn patient-btn" onclick="bookAppointment()">Book Appointment</button>
+</form>
+</div>
+</div>
+
+<!-- View Details Modal -->
+<div id="detailsModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">&times;</span>
+<div id="modalContent"></div>
+</div>
 </div>
 
 <script>
-let generatedOTP = "";
-let isLoginMode = false;
-
-window.onload = function() {
-    // Initialize Google One Tap
-    google.accounts.id.initialize({
-        client_id: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
-        callback: handleCredentialResponse,
-        auto_select: false,
-        cancel_on_tap_outside: true
-    });
-
-    // Add event listeners for radio buttons
-    const emailRadio = document.querySelector('input[value="email"]');
-    const mobileRadio = document.querySelector('input[value="mobile"]');
-    const contactInput = document.getElementById('contactInput');
-    const contactLabel = document.getElementById('contactLabel');
-    const hintText = document.getElementById('hintText');
-
-    emailRadio.addEventListener('change', function() {
-        if(this.checked) {
-            contactLabel.innerHTML = '📧 Email address';
-            contactInput.type = 'email';
-            contactInput.placeholder = 'Enter your email';
-            hintText.innerText = 'Verification code will be sent to your email';
-        }
-    });
-
-    mobileRadio.addEventListener('change', function() {
-        if(this.checked) {
-            contactLabel.innerHTML = '📱 Mobile number';
-            contactInput.type = 'tel';
-            contactInput.placeholder = 'Enter 10-digit mobile number';
-            hintText.innerText = 'Verification code will be sent via SMS';
-        }
-    });
-
-    // Show One Tap if user was previously signed in
-    setTimeout(() => {
-        google.accounts.id.prompt((notification) => {
-            if (notification.isNotDisplayed()) {
-                console.log('One Tap not displayed');
-            }
-            if (notification.isSkippedMoment()) {
-                console.log('One Tap skipped');
-            }
-            if (notification.isDismissedMoment()) {
-                console.log('One Tap dismissed');
-            }
-        });
-    }, 1000);
-};
-
-// Handle Google credential response
-function handleCredentialResponse(response) {
-    // Decode the JWT token
-    const responsePayload = parseJwt(response.credential);
-    
-    console.log("Google User:", responsePayload);
-    
-    // Show success message with user info
-    showConfetti();
-    alert(`Welcome ${responsePayload.name}!\nSigned in with ${responsePayload.email}`);
-    
-    // Auto-fill the form with Google user data (optional)
-    document.getElementById('fullName').value = responsePayload.name || '';
-    document.getElementById('contactInput').value = responsePayload.email || '';
-    
-    // You can send this token to your backend for verification
-    // verifyGoogleToken(response.credential);
+// ==================== DATABASE INITIALIZATION ====================
+// Initialize database if not exists
+function initializeDatabase() {
+    if (!localStorage.getItem('hms_database')) {
+        const database = {
+            users: {
+                admin: [
+                    { id: 'ADM001', username: 'admin', password: 'admin123', name: 'System Administrator', email: 'admin@healthaxis.com' }
+                ],
+                doctors: [
+                    { 
+                        id: 'DOC001', 
+                        username: 'priya', 
+                        password: 'doctor123', 
+                        name: 'Dr. Priya Patel', 
+                        specialization: 'Cardiologist',
+                        email: 'priya.patel@healthaxis.com',
+                        mobile: '9876543210'
+                    },
+                    { 
+                        id: 'DOC002', 
+                        username: 'rajesh', 
+                        password: 'doctor123', 
+                        name: 'Dr. Rajesh Kumar', 
+                        specialization: 'Neurologist',
+                        email: 'rajesh.kumar@healthaxis.com',
+                        mobile: '9876543211'
+                    }
+                ],
+                patients: []
+            },
+            appointments: [],
+            bills: [],
+            prescriptions: [],
+            medicalRecords: []
+        };
+        localStorage.setItem('hms_database', JSON.stringify(database));
+    }
 }
 
-// Helper function to parse JWT token
+// Get database
+function getDatabase() {
+    return JSON.parse(localStorage.getItem('hms_database'));
+}
+
+// Save database
+function saveDatabase(db) {
+    localStorage.setItem('hms_database', JSON.stringify(db));
+}
+
+// Initialize on load
+initializeDatabase();
+
+// ==================== GLOBAL VARIABLES ====================
+let currentRole = 'admin';
+let currentUser = null;
+
+// ==================== ROLE SELECTION ====================
+function selectRole(role) {
+    currentRole = role;
+    
+    // Update active state
+    document.querySelectorAll('.role-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    document.getElementById(`role${role.charAt(0).toUpperCase() + role.slice(1)}`).classList.add('active');
+    
+    // Update button color
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.className = 'action-btn';
+    if(role === 'doctor') {
+        loginBtn.classList.add('doctor-btn');
+    } else if(role === 'patient') {
+        loginBtn.classList.add('patient-btn');
+    }
+    
+    // Show register link only for patients
+    document.getElementById('registerLink').style.display = role === 'patient' ? 'block' : 'none';
+    
+    // Update form title
+    document.getElementById('modeText').innerText = `${role} login`;
+    
+    // Hide any previous error
+    document.getElementById('loginError').style.display = 'none';
+}
+
+// ==================== AUTHENTICATION ====================
+function handleLogin() {
+    let username = document.getElementById('username').value.trim();
+    let password = document.getElementById('password').value.trim();
+    let errorDiv = document.getElementById('loginError');
+
+    // Clear previous error
+    errorDiv.style.display = 'none';
+    
+    if(!username || !password) {
+        showError(errorDiv, 'Please enter username and password');
+        return;
+    }
+
+    let db = getDatabase();
+    let user = null;
+
+    if(currentRole === 'admin') {
+        user = db.users.admin.find(u => u.username === username && u.password === password);
+        if(user) {
+            currentUser = user;
+            loadAdminDashboard();
+            showDashboard('admin');
+            document.getElementById('adminName').innerText = user.name;
+        } else {
+            // Check if username exists
+            let userExists = db.users.admin.some(u => u.username === username);
+            if(userExists) {
+                showError(errorDiv, 'Incorrect password!');
+            } else {
+                showError(errorDiv, 'Admin user does not exist!');
+            }
+        }
+    } 
+    else if(currentRole === 'doctor') {
+        user = db.users.doctors.find(u => (u.username === username || u.email === username) && u.password === password);
+        if(user) {
+            currentUser = user;
+            loadDoctorDashboard();
+            showDashboard('doctor');
+            document.getElementById('doctorName').innerText = user.name;
+        } else {
+            // Check if username exists
+            let userExists = db.users.doctors.some(u => u.username === username || u.email === username);
+            if(userExists) {
+                showError(errorDiv, 'Incorrect password!');
+            } else {
+                showError(errorDiv, 'Doctor does not exist!');
+            }
+        }
+    } 
+    else if(currentRole === 'patient') {
+        user = db.users.patients.find(u => (u.username === username || u.email === username || u.mobile === username) && u.password === password);
+        if(user) {
+            currentUser = user;
+            loadPatientDashboard();
+            showDashboard('patient');
+            document.getElementById('patientName').innerText = user.name;
+        } else {
+            // Check if user exists by any field
+            let userExists = db.users.patients.some(u => u.username === username || u.email === username || u.mobile === username);
+            if(userExists) {
+                showError(errorDiv, 'Incorrect password!');
+            } else {
+                showError(errorDiv, 'Patient does not exist! Please register.');
+            }
+        }
+    }
+}
+
+function showError(element, message) {
+    element.innerText = message;
+    element.style.display = 'block';
+}
+
+// ==================== REGISTRATION ====================
+function showRegister() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'flex';
+    document.querySelector('.role-selection').style.display = 'none';
+    document.getElementById('modeText').innerText = 'patient registration';
+    document.getElementById('registerError').style.display = 'none';
+}
+
+function showLogin() {
+    document.getElementById('loginForm').style.display = 'flex';
+    document.getElementById('registerForm').style.display = 'none';
+    document.querySelector('.role-selection').style.display = 'flex';
+    document.getElementById('modeText').innerText = `${currentRole} login`;
+    document.getElementById('loginError').style.display = 'none';
+}
+
+function handleRegister() {
+    let fullName = document.getElementById('regFullName').value.trim();
+    let email = document.getElementById('regEmail').value.trim();
+    let mobile = document.getElementById('regMobile').value.trim();
+    let password = document.getElementById('regPassword').value.trim();
+    let confirmPassword = document.getElementById('regConfirmPassword').value.trim();
+    let errorDiv = document.getElementById('registerError');
+
+    errorDiv.style.display = 'none';
+
+    // Validation
+    if(!fullName || !email || !mobile || !password) {
+        showError(errorDiv, 'Please fill all fields');
+        return;
+    }
+
+    if(!/^\d{10}$/.test(mobile)) {
+        showError(errorDiv, 'Please enter valid 10-digit mobile number');
+        return;
+    }
+
+    if(!email.includes('@')) {
+        showError(errorDiv, 'Please enter valid email address');
+        return;
+    }
+
+    if(password.length < 8) {
+        showError(errorDiv, 'Password must be at least 8 characters');
+        return;
+    }
+
+    if(password !== confirmPassword) {
+        showError(errorDiv, 'Passwords do not match');
+        return;
+    }
+
+    let db = getDatabase();
+
+    // Check if user already exists
+    let existingUser = db.users.patients.find(p => p.email === email || p.mobile === mobile);
+    if(existingUser) {
+        showError(errorDiv, 'User already registered! Please login.');
+        return;
+    }
+
+    // Create new patient
+    let newPatient = {
+        id: `PAT${String(db.users.patients.length + 1).padStart(3, '0')}`,
+        username: email,
+        password: password,
+        name: fullName,
+        email: email,
+        mobile: mobile,
+        address: '',
+        dob: '',
+        gender: '',
+        registeredDate: new Date().toISOString()
+    };
+    
+    db.users.patients.push(newPatient);
+    saveDatabase(db);
+    
+    showConfetti();
+    alert('Registration Successful! Please login.');
+    showLogin();
+}
+
+// ==================== DASHBOARD NAVIGATION ====================
+function showDashboard(role) {
+    document.getElementById('loginCard').style.display = 'none';
+    document.getElementById(`${role}Dashboard`).style.display = 'block';
+    showConfetti();
+}
+
+function logout() {
+    currentUser = null;
+    document.getElementById('loginCard').style.display = 'block';
+    document.getElementById('adminDashboard').style.display = 'none';
+    document.getElementById('doctorDashboard').style.display = 'none';
+    document.getElementById('patientDashboard').style.display = 'none';
+    
+    // Reset forms
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('loginError').style.display = 'none';
+}
+
+// ==================== ADMIN FUNCTIONS ====================
+function loadAdminDashboard() {
+    let db = getDatabase();
+    
+    // Update stats
+    document.getElementById('totalPatients').innerText = db.users.patients.length;
+    document.getElementById('totalDoctors').innerText = db.users.doctors.length;
+    document.getElementById('todayAppointments').innerText = db.appointments.filter(a => {
+        let today = new Date().toISOString().split('T')[0];
+        return a.date === today;
+    }).length;
+    
+    // Calculate revenue (mock)
+    let todayRevenue = db.bills?.filter(b => {
+        let today = new Date().toISOString().split('T')[0];
+        return b.date === today && b.status === 'paid';
+    }).reduce((sum, b) => sum + b.amount, 0) || 0;
+    document.getElementById('todayRevenue').innerText = `₹${todayRevenue}`;
+    
+    // Load appointments
+    loadAdminAppointments();
+    
+    // Load doctors list
+    loadDoctorsList();
+}
+
+function loadAdminAppointments() {
+    let db = getDatabase();
+    let tbody = document.getElementById('adminAppointmentsList');
+    
+    if(db.appointments.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6">No appointments yet</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    db.appointments.slice(0, 5).forEach(app => {
+        html += `<tr>
+            <td>${app.patientName}</td>
+            <td>${app.doctorName}</td>
+            <td>${app.date}</td>
+            <td>${app.time}</td>
+            <td><span class="status-badge status-${app.status}">${app.status}</span></td>
+            <td class="action-icons"><i class="fas fa-eye" onclick="viewAppointmentDetails('${app.id}')"></i></td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+function loadDoctorsList() {
+    let db = getDatabase();
+    let tbody = document.getElementById('doctorsList');
+    
+    if(db.users.doctors.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6">No doctors added yet</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    db.users.doctors.forEach(doc => {
+        html += `<tr>
+            <td>${doc.id}</td>
+            <td>${doc.name}</td>
+            <td>${doc.specialization}</td>
+            <td>${doc.email}</td>
+            <td>${doc.mobile}</td>
+            <td class="action-icons">
+                <i class="fas fa-edit" onclick="editDoctor('${doc.id}')"></i>
+                <i class="fas fa-trash" onclick="deleteDoctor('${doc.id}')"></i>
+            </td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+function switchAdminTab(tab) {
+    document.querySelectorAll('#adminContent > div').forEach(div => div.style.display = 'none');
+    document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+    
+    if(tab === 'dashboard') {
+        document.getElementById('adminDashboardView').style.display = 'block';
+        loadAdminAppointments();
+    } else if(tab === 'billing') {
+        document.getElementById('adminBillingView').style.display = 'block';
+        loadBillsList();
+    } else if(tab === 'doctors') {
+        document.getElementById('adminDoctorsView').style.display = 'block';
+        loadDoctorsList();
+    } else if(tab === 'appointments') {
+        document.getElementById('adminAppointmentsView').style.display = 'block';
+        loadAllAppointments();
+    }
+    
+    event.target.classList.add('active');
+}
+
+function showAddDoctorModal() {
+    document.getElementById('addDoctorModal').style.display = 'block';
+}
+
+function closeAddDoctorModal() {
+    document.getElementById('addDoctorModal').style.display = 'none';
+    document.getElementById('addDoctorForm').reset();
+}
+
+function addDoctor() {
+    let name = document.getElementById('doctorName').value.trim();
+    let specialization = document.getElementById('doctorSpecialization').value.trim();
+    let email = document.getElementById('doctorEmail').value.trim();
+    let mobile = document.getElementById('doctorMobile').value.trim();
+    let password = document.getElementById('doctorPassword').value.trim();
+
+    if(!name || !specialization || !email || !mobile || !password) {
+        alert('Please fill all fields');
+        return;
+    }
+
+    let db = getDatabase();
+    
+    // Create new doctor
+    let newDoctor = {
+        id: `DOC${String(db.users.doctors.length + 1).padStart(3, '0')}`,
+        username: email.split('@')[0],
+        password: password,
+        name: name,
+        specialization: specialization,
+        email: email,
+        mobile: mobile
+    };
+    
+    db.users.doctors.push(newDoctor);
+    saveDatabase(db);
+    
+    closeAddDoctorModal();
+    loadDoctorsList();
+    showConfetti();
+    alert('Doctor added successfully!');
+}
+
+function editDoctor(doctorId) {
+    alert(`Edit doctor ${doctorId} - Feature coming soon`);
+}
+
+function deleteDoctor(doctorId) {
+    if(confirm('Are you sure you want to delete this doctor?')) {
+        let db = getDatabase();
+        db.users.doctors = db.users.doctors.filter(d => d.id !== doctorId);
+        saveDatabase(db);
+        loadDoctorsList();
+        alert('Doctor deleted successfully');
+    }
+}
+
+// ==================== DOCTOR FUNCTIONS ====================
+function loadDoctorDashboard() {
+    let db = getDatabase();
+    
+    // Get doctor's appointments
+    let doctorAppointments = db.appointments.filter(a => a.doctorId === currentUser.id);
+    let today = new Date().toISOString().split('T')[0];
+    let todayAppointments = doctorAppointments.filter(a => a.date === today);
+    
+    document.getElementById('doctorTotalPatients').innerText = doctorAppointments.length;
+    document.getElementById('doctorTodayAppointments').innerText = todayAppointments.length;
+    document.getElementById('doctorPendingCases').innerText = doctorAppointments.filter(a => a.status === 'pending').length;
+    document.getElementById('doctorCompletedToday').innerText = todayAppointments.filter(a => a.status === 'completed').length;
+    
+    // Load patient list
+    loadDoctorPatientList();
+    
+    // Load appointments
+    loadDoctorAppointments();
+}
+
+function loadDoctorPatientList() {
+    let db = getDatabase();
+    let tbody = document.getElementById('doctorPatientList');
+    
+    let doctorAppointments = db.appointments.filter(a => a.doctorId === currentUser.id);
+    
+    if(doctorAppointments.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6">No patients yet</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    doctorAppointments.forEach(app => {
+        let patient = db.users.patients.find(p => p.id === app.patientId);
+        if(patient) {
+            html += `<tr>
+                <td>${patient.id}</td>
+                <td>${patient.name}</td>
+                <td>35</td>
+                <td>${app.time}</td>
+                <td><span class="status-badge status-${app.status}">${app.status}</span></td>
+                <td class="action-icons">
+                    <i class="fas fa-eye" onclick="viewPatientDetails('${patient.id}')"></i>
+                    <i class="fas fa-notes-medical" onclick="addDiagnosis('${patient.id}')"></i>
+                </td>
+            </tr>`;
+        }
+    });
+    tbody.innerHTML = html;
+}
+
+function loadDoctorAppointments() {
+    let db = getDatabase();
+    let tbody = document.getElementById('doctorAppointmentsList');
+    
+    let today = new Date().toISOString().split('T')[0];
+    let todayAppointments = db.appointments.filter(a => a.doctorId === currentUser.id && a.date === today);
+    
+    if(todayAppointments.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5">No appointments today</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    todayAppointments.forEach(app => {
+        let patient = db.users.patients.find(p => p.id === app.patientId);
+        html += `<tr>
+            <td>${patient ? patient.name : 'Unknown'}</td>
+            <td>${app.time}</td>
+            <td>${app.reason || '-'}</td>
+            <td><span class="status-badge status-${app.status}">${app.status}</span></td>
+            <td>
+                <select onchange="updateAppointmentStatus('${app.id}', this.value)">
+                    <option value="pending" ${app.status === 'pending' ? 'selected' : ''}>Pending</option>
+                    <option value="confirmed" ${app.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                    <option value="completed" ${app.status === 'completed' ? 'selected' : ''}>Completed</option>
+                </select>
+            </td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+function switchDoctorTab(tab) {
+    document.querySelectorAll('#doctorContent > div').forEach(div => div.style.display = 'none');
+    document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+    
+    if(tab === 'patients') {
+        document.getElementById('doctorPatientsView').style.display = 'block';
+        loadDoctorPatientList();
+    } else if(tab === 'appointments') {
+        document.getElementById('doctorAppointmentsView').style.display = 'block';
+        loadDoctorAppointments();
+    } else if(tab === 'diagnosis') {
+        document.getElementById('doctorDiagnosisView').style.display = 'block';
+    } else if(tab === 'prescriptions') {
+        document.getElementById('doctorPrescriptionsView').style.display = 'block';
+        loadPrescriptionsList();
+    }
+    
+    event.target.classList.add('active');
+}
+
+function viewPatientDetails(patientId) {
+    let db = getDatabase();
+    let patient = db.users.patients.find(p => p.id === patientId);
+    
+    if(patient) {
+        let modal = document.getElementById('detailsModal');
+        let modalContent = document.getElementById('modalContent');
+        
+        // Get patient's medical history
+        let history = db.medicalRecords?.filter(r => r.patientId === patientId) || [];
+        let historyHtml = history.length ? history.map(h => 
+            `<p><strong>${h.date}:</strong> ${h.diagnosis}</p>`
+        ).join('') : '<p>No previous records</p>';
+        
+        modalContent.innerHTML = `
+            <h3>Patient Details</h3>
+            <div class="patient-info">
+                <p><strong>Name:</strong> ${patient.name}</p>
+                <p><strong>ID:</strong> ${patient.id}</p>
+                <p><strong>Email:</strong> ${patient.email}</p>
+                <p><strong>Mobile:</strong> ${patient.mobile}</p>
+            </div>
+            <h4>Medical History</h4>
+            ${historyHtml}
+        `;
+        modal.style.display = 'block';
+    }
+}
+
+function addDiagnosis(patientId) {
+    switchDoctorTab('diagnosis');
+    
+    let db = getDatabase();
+    let patient = db.users.patients.find(p => p.id === patientId);
+    
+    if(patient) {
+        document.getElementById('diagnosisPatientName').innerText = patient.name;
+        document.getElementById('diagnosisPatientId').innerText = patient.id;
+    }
+}
+
+function addMedicineField() {
+    let medicineList = document.getElementById('medicineList');
+    let newField = document.createElement('div');
+    newField.className = 'medicine-item';
+    newField.style.display = 'flex';
+    newField.style.gap = '10px';
+    newField.style.marginBottom = '10px';
+    newField.innerHTML = `
+        <input type="text" placeholder="Medicine name" style="flex:2;">
+        <input type="text" placeholder="Dosage" style="flex:1;">
+        <input type="text" placeholder="Duration" style="flex:1;">
+        <i class="fas fa-minus-circle" style="color:#d32f2f; cursor:pointer; align-self:center;" onclick="this.parentElement.remove()"></i>
+    `;
+    medicineList.appendChild(newField);
+}
+
+function saveDiagnosis() {
+    let patientId = document.getElementById('diagnosisPatientId').innerText;
+    let diagnosis = document.getElementById('diagnosis').value.trim();
+    let observations = document.getElementById('observations').value.trim();
+    let notes = document.getElementById('notes').value.trim();
+    
+    if(!patientId || !diagnosis) {
+        alert('Please select a patient and enter diagnosis');
+        return;
+    }
+    
+    let db = getDatabase();
+    
+    // Create medical record
+    if(!db.medicalRecords) db.medicalRecords = [];
+    
+    let record = {
+        id: `REC${String(db.medicalRecords.length + 1).padStart(3, '0')}`,
+        patientId: patientId,
+        doctorId: currentUser.id,
+        doctorName: currentUser.name,
+        date: new Date().toISOString().split('T')[0],
+        diagnosis: diagnosis,
+        observations: observations,
+        notes: notes
+    };
+    
+    db.medicalRecords.push(record);
+    
+    // Create prescription
+    let medicines = [];
+    document.querySelectorAll('.medicine-item').forEach(item => {
+        let inputs = item.querySelectorAll('input');
+        if(inputs[0]?.value) {
+            medicines.push({
+                name: inputs[0].value,
+                dosage: inputs[1]?.value || '',
+                duration: inputs[2]?.value || ''
+            });
+        }
+    });
+    
+    if(medicines.length > 0) {
+        if(!db.prescriptions) db.prescriptions = [];
+        db.prescriptions.push({
+            id: `PRES${String(db.prescriptions.length + 1).padStart(3, '0')}`,
+            patientId: patientId,
+            doctorId: currentUser.id,
+            date: new Date().toISOString().split('T')[0],
+            medicines: medicines
+        });
+    }
+    
+    saveDatabase(db);
+    
+    alert('Diagnosis saved successfully!');
+    switchDoctorTab('patients');
+}
+
+function updateAppointmentStatus(appointmentId, status) {
+    let db = getDatabase();
+    let appointment = db.appointments.find(a => a.id === appointmentId);
+    if(appointment) {
+        appointment.status = status;
+        saveDatabase(db);
+        loadDoctorAppointments();
+        alert('Appointment status updated');
+    }
+}
+
+function searchPatient() {
+    let searchTerm = document.getElementById('doctorSearch').value.toLowerCase();
+    let rows = document.querySelectorAll('#doctorPatientList tr');
+    
+    rows.forEach(row => {
+        if(row.innerHTML.includes('No patients')) return;
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+// ==================== PATIENT FUNCTIONS ====================
+function loadPatientDashboard() {
+    let db = getDatabase();
+    
+    // Get patient's appointments
+    let patientAppointments = db.appointments.filter(a => a.patientId === currentUser.id);
+    let upcoming = patientAppointments.filter(a => a.status === 'pending' || a.status === 'confirmed').length;
+    
+    document.getElementById('patientUpcomingAppointments').innerText = upcoming;
+    
+    // Get prescriptions
+    let prescriptions = db.prescriptions?.filter(p => p.patientId === currentUser.id) || [];
+    document.getElementById('patientTotalPrescriptions').innerText = prescriptions.length;
+    
+    // Get reports (mock)
+    document.getElementById('patientTotalReports').innerText = '0';
+    
+    // Get pending bills
+    let bills = db.bills?.filter(b => b.patientId === currentUser.id && b.status === 'pending') || [];
+    let pendingAmount = bills.reduce((sum, b) => sum + b.amount, 0);
+    document.getElementById('patientPendingBills').innerText = `₹${pendingAmount}`;
+    
+    // Load appointments
+    loadPatientAppointments();
+    
+    // Load prescriptions
+    loadPatientPrescriptions();
+    
+    // Load bills
+    loadPatientBills();
+    
+    // Load profile
+    loadPatientProfile();
+}
+
+function loadPatientAppointments() {
+    let db = getDatabase();
+    let tbody = document.getElementById('patientAppointmentsList');
+    
+    let appointments = db.appointments.filter(a => a.patientId === currentUser.id);
+    
+    if(appointments.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5">No appointments</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    appointments.forEach(app => {
+        html += `<tr>
+            <td>${app.doctorName}</td>
+            <td>${app.date}</td>
+            <td>${app.time}</td>
+            <td><span class="status-badge status-${app.status}">${app.status}</span></td>
+            <td class="action-icons">
+                <i class="fas fa-eye" onclick="viewAppointment('${app.id}')"></i>
+                ${app.status === 'pending' ? `<i class="fas fa-times-circle" onclick="cancelAppointment('${app.id}')"></i>` : ''}
+            </td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+function loadPatientPrescriptions() {
+    let db = getDatabase();
+    let container = document.getElementById('prescriptionsList');
+    
+    let prescriptions = db.prescriptions?.filter(p => p.patientId === currentUser.id) || [];
+    
+    if(prescriptions.length === 0) {
+        container.innerHTML = '<p>No prescriptions yet</p>';
+        return;
+    }
+    
+    let html = '';
+    prescriptions.forEach(p => {
+        let medicines = p.medicines.map(m => 
+            `<li>${m.name} - ${m.dosage} - ${m.duration}</li>`
+        ).join('');
+        
+        html += `
+        <div class="prescription-item">
+            <p><strong>Date:</strong> ${p.date} | <strong>Doctor:</strong> Dr. ${p.doctorId}</p>
+            <p><strong>Medicines:</strong></p>
+            <ul>${medicines}</ul>
+            <button class="action-btn" style="width:auto; padding:5px 15px;" onclick="downloadPrescription('${p.id}')">Download</button>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+function loadPatientBills() {
+    let db = getDatabase();
+    let tbody = document.getElementById('patientBillsList');
+    
+    let bills = db.bills?.filter(b => b.patientId === currentUser.id) || [];
+    
+    if(bills.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6">No bills available</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    bills.forEach(bill => {
+        html += `<tr>
+            <td>${bill.id}</td>
+            <td>${bill.date}</td>
+            <td>${bill.description}</td>
+            <td>₹${bill.amount}</td>
+            <td><span class="status-badge status-${bill.status}">${bill.status}</span></td>
+            <td class="action-icons">
+                <i class="fas fa-download" onclick="downloadBill('${bill.id}')"></i>
+                ${bill.status === 'pending' ? `<i class="fas fa-credit-card" onclick="payBill('${bill.id}')"></i>` : ''}
+            </td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+function loadPatientProfile() {
+    document.getElementById('profileEmail').value = currentUser.email || '';
+    document.getElementById('profileMobile').value = currentUser.mobile || '';
+    document.getElementById('profileAddress').value = currentUser.address || '';
+    document.getElementById('profileDob').value = currentUser.dob || '';
+    document.getElementById('profileGender').value = currentUser.gender || 'male';
+}
+
+function switchPatientTab(tab) {
+    document.querySelectorAll('#patientContent > div').forEach(div => div.style.display = 'none');
+    document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+    
+    if(tab === 'appointments') {
+        document.getElementById('patientAppointmentsView').style.display = 'block';
+        loadPatientAppointments();
+    } else if(tab === 'prescriptions') {
+        document.getElementById('patientPrescriptionsView').style.display = 'block';
+        loadPatientPrescriptions();
+    } else if(tab === 'reports') {
+        document.getElementById('patientReportsView').style.display = 'block';
+    } else if(tab === 'history') {
+        document.getElementById('patientHistoryView').style.display = 'block';
+        loadPatientHistory();
+    } else if(tab === 'bills') {
+        document.getElementById('patientBillsView').style.display = 'block';
+        loadPatientBills();
+    } else if(tab === 'profile') {
+        document.getElementById('patientProfileView').style.display = 'block';
+        loadPatientProfile();
+    }
+    
+    event.target.classList.add('active');
+}
+
+function showBookAppointmentModal() {
+    let db = getDatabase();
+    let doctorSelect = document.getElementById('appointmentDoctor');
+    
+    // Clear and populate doctors
+    doctorSelect.innerHTML = '<option value="">Choose doctor</option>';
+    db.users.doctors.forEach(doc => {
+        doctorSelect.innerHTML += `<option value="${doc.id}">${doc.name} - ${doc.specialization}</option>`;
+    });
+    
+    document.getElementById('appointmentModal').style.display = 'block';
+}
+
+function closeAppointmentModal() {
+    document.getElementById('appointmentModal').style.display = 'none';
+    document.getElementById('appointmentForm').reset();
+}
+
+function bookAppointment() {
+    let doctorId = document.getElementById('appointmentDoctor').value;
+    let date = document.getElementById('appointmentDate').value;
+    let time = document.getElementById('appointmentTime').value;
+    let reason = document.getElementById('appointmentReason').value.trim();
+
+    if(!doctorId || !date || !time) {
+        alert('Please select doctor, date and time');
+        return;
+    }
+
+    let db = getDatabase();
+    let doctor = db.users.doctors.find(d => d.id === doctorId);
+    
+    // Create appointment
+    if(!db.appointments) db.appointments = [];
+    
+    let appointment = {
+        id: `APT${String(db.appointments.length + 1).padStart(3, '0')}`,
+        patientId: currentUser.id,
+        patientName: currentUser.name,
+        doctorId: doctorId,
+        doctorName: doctor.name,
+        date: date,
+        time: time,
+        reason: reason,
+        status: 'pending',
+        bookedDate: new Date().toISOString()
+    };
+    
+    db.appointments.push(appointment);
+    saveDatabase(db);
+    
+    closeAppointmentModal();
+    loadPatientAppointments();
+    showConfetti();
+    alert('Appointment booked successfully!');
+}
+
+function viewAppointment(appointmentId) {
+    alert(`Viewing appointment ${appointmentId}`);
+}
+
+function cancelAppointment(appointmentId) {
+    if(confirm('Are you sure you want to cancel this appointment?')) {
+        let db = getDatabase();
+        db.appointments = db.appointments.map(a => 
+            a.id === appointmentId ? {...a, status: 'cancelled'} : a
+        );
+        saveDatabase(db);
+        loadPatientAppointments();
+        alert('Appointment cancelled');
+    }
+}
+
+function downloadPrescription(prescriptionId) {
+    alert(`Downloading prescription ${prescriptionId}`);
+}
+
+function downloadBill(billId) {
+    alert(`Downloading bill ${billId}`);
+}
+
+function payBill(billId) {
+    alert(`Processing payment for bill ${billId}`);
+}
+
+function updateProfile() {
+    let mobile = document.getElementById('profileMobile').value.trim();
+    let address = document.getElementById('profileAddress').value.trim();
+    let dob = document.getElementById('profileDob').value;
+    let gender = document.getElementById('profileGender').value;
+
+    if(!mobile || !/^\d{10}$/.test(mobile)) {
+        alert('Please enter valid 10-digit mobile number');
+        return;
+    }
+
+    let db = getDatabase();
+    let patient = db.users.patients.find(p => p.id === currentUser.id);
+    
+    if(patient) {
+        patient.mobile = mobile;
+        patient.address = address;
+        patient.dob = dob;
+        patient.gender = gender;
+        
+        saveDatabase(db);
+        currentUser = patient;
+        alert('Profile updated successfully!');
+    }
+}
+
+// ==================== HELPER FUNCTIONS ====================
+function loadAllAppointments() {
+    let db = getDatabase();
+    let tbody = document.getElementById('allAppointmentsList');
+    
+    if(!db.appointments || db.appointments.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6">No appointments</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    db.appointments.forEach(app => {
+        html += `<tr>
+            <td>${app.patientName}</td>
+            <td>${app.doctorName}</td>
+            <td>${app.date}</td>
+            <td>${app.time}</td>
+            <td><span class="status-badge status-${app.status}">${app.status}</span></td>
+            <td class="action-icons">
+                <i class="fas fa-check-circle" onclick="updateAppointmentStatus('${app.id}', 'confirmed')"></i>
+                <i class="fas fa-times-circle" onclick="updateAppointmentStatus('${app.id}', 'cancelled')"></i>
+            </td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+function loadBillsList() {
+    let db = getDatabase();
+    let tbody = document.getElementById('billsList');
+    
+    if(!db.bills || db.bills.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6">No bills yet</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    db.bills.forEach(bill => {
+        html += `<tr>
+            <td>${bill.id}</td>
+            <td>${bill.patientName}</td>
+            <td>${bill.date}</td>
+            <td>₹${bill.amount}</td>
+            <td><span class="status-badge status-${bill.status}">${bill.status}</span></td>
+            <td class="action-icons">
+                <i class="fas fa-print" onclick="printBill('${bill.id}')"></i>
+                <i class="fas fa-download" onclick="downloadBill('${bill.id}')"></i>
+            </td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+function loadPrescriptionsList() {
+    let db = getDatabase();
+    let tbody = document.getElementById('prescriptionsList');
+    
+    if(!db.prescriptions || db.prescriptions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5">No prescriptions yet</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    db.prescriptions.slice(0, 10).forEach(pre => {
+        let patient = db.users.patients.find(p => p.id === pre.patientId);
+        let medicines = pre.medicines.map(m => m.name).join(', ');
+        
+        html += `<tr>
+            <td>${pre.date}</td>
+            <td>${patient ? patient.name : 'Unknown'}</td>
+            <td>-</td>
+            <td>${medicines}</td>
+            <td class="action-icons">
+                <i class="fas fa-download" onclick="downloadPrescription('${pre.id}')"></i>
+                <i class="fas fa-print" onclick="printPrescription('${pre.id}')"></i>
+            </td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+function loadPatientHistory() {
+    let db = getDatabase();
+    let tbody = document.getElementById('patientHistoryList');
+    
+    let records = db.medicalRecords?.filter(r => r.patientId === currentUser.id) || [];
+    
+    if(records.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">No history available</td></tr>';
+        return;
+    }
+    
+    let html = '';
+    records.forEach(record => {
+        html += `<tr>
+            <td>${record.date}</td>
+            <td>Dr. ${record.doctorId}</td>
+            <td>${record.diagnosis}</td>
+            <td>${record.notes || '-'}</td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+// ==================== MODAL FUNCTIONS ====================
+function closeModal() {
+    document.getElementById('detailsModal').style.display = 'none';
+}
+
+function generateBill() {
+    alert('Bill generation feature coming soon');
+}
+
+function printBill(billId) {
+    alert(`Printing bill ${billId}`);
+}
+
+function downloadBill(billId) {
+    alert(`Downloading bill ${billId}`);
+}
+
+function printPrescription(prescriptionId) {
+    alert(`Printing prescription ${prescriptionId}`);
+}
+
+function searchAdmin() {
+    alert('Search feature coming soon');
+}
+
+function viewAppointmentDetails(appointmentId) {
+    alert(`Viewing appointment ${appointmentId}`);
+}
+
+// ==================== GOOGLE LOGIN ====================
+function googleLogin() {
+    google.accounts.id.prompt();
+}
+
+function handleCredentialResponse(response) {
+    let payload = parseJwt(response.credential);
+    
+    // Check if user exists in database
+    let db = getDatabase();
+    let user = db.users.patients.find(p => p.email === payload.email);
+    
+    if(user) {
+        currentUser = user;
+        loadPatientDashboard();
+        showDashboard('patient');
+        document.getElementById('patientName').innerText = user.name;
+        showConfetti();
+    } else {
+        // Auto-fill registration form
+        document.getElementById('regFullName').value = payload.name;
+        document.getElementById('regEmail').value = payload.email;
+        showRegister();
+        alert('Please complete registration');
+    }
+}
+
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
+    return JSON.parse(atob(base64));
 }
 
-// Optional: Send token to backend
-function verifyGoogleToken(credential) {
-    fetch('/api/auth/google', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: credential })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Backend response:', data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-/* 🎉 Confetti Function */
+// ==================== CONFETTI ====================
 function showConfetti(){
     for(let i=0;i<80;i++){
         let conf=document.createElement("div");
@@ -380,137 +2119,25 @@ function showConfetti(){
     }
 }
 
-const toggleLink=document.getElementById("toggleLink");
-const mainActionBtn=document.getElementById("mainActionBtn");
-const formTitle=document.getElementById("formTitle");
-const modeText=document.getElementById("modeText");
-const verifyMessage=document.getElementById("verifyMessage");
-const otpSection=document.getElementById("otpSection");
-const fullNameField = document.getElementById('fullNameField');
-const confirmPasswordField = document.getElementById('confirmPasswordField');
-
-function updateFormForMode(loginMode) {
-    if(loginMode) {
-        formTitle.innerText = "login to your account";
-        modeText.innerText = "secure login access";
-        mainActionBtn.innerText = "Login";
-        fullNameField.style.display = "none";
-        confirmPasswordField.style.display = "none";
-        toggleLink.innerText = "Register";
-        document.getElementById("toggleText").innerText = "New user?";
-    } else {
-        formTitle.innerText = "create your account";
-        modeText.innerText = "registration · secure access";
-        mainActionBtn.innerText = "Register & Get Verification";
-        fullNameField.style.display = "block";
-        confirmPasswordField.style.display = "block";
-        toggleLink.innerText = "Login";
-        document.getElementById("toggleText").innerText = "Already registered?";
-    }
+// ==================== EVENT LISTENERS ====================
+window.onclick = function(event) {
+    let modals = ['detailsModal', 'appointmentModal', 'addDoctorModal'];
+    modals.forEach(modalId => {
+        let modal = document.getElementById(modalId);
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
 }
 
-toggleLink.addEventListener("click",function(e){
-    e.preventDefault();
-    isLoginMode = !isLoginMode;
-
-    verifyMessage.style.display="none";
-    otpSection.style.display="none";
-
-    updateFormForMode(isLoginMode);
-});
-
-mainActionBtn.addEventListener("click",function(){
-    let fullName = document.getElementById("fullName").value.trim();
-    let contactValue=document.getElementById("contactInput").value.trim();
-    let password=document.getElementById("password").value.trim();
-    let confirmPassword = document.getElementById("confirmPassword").value.trim();
-    let contactType = document.querySelector('input[name="contactType"]:checked').value;
-
-    if(isLoginMode){
-        // Login validation
-        if(contactValue === ""){
-            if(contactType === "email"){
-                alert("Please enter your email address");
-            } else {
-                alert("Please enter your mobile number");
-            }
-            return;
-        }
-
-        if(contactType === "mobile" && !/^\d{10}$/.test(contactValue)){
-            alert("Please enter a valid 10-digit mobile number");
-            return;
-        }
-
-        if(contactType === "email" && !contactValue.includes('@')){
-            alert("Please enter a valid email address");
-            return;
-        }
-
-        if(password.length < 8){
-            alert("Password must be at least 8 characters");
-            return;
-        }
-
-        showConfetti();
-        alert("Login Successful!");
-    } else {
-        // Registration validation
-        if(fullName === ""){
-            alert("Please enter your full name");
-            return;
-        }
-
-        if(contactValue === ""){
-            if(contactType === "email"){
-                alert("Please enter your email address");
-            } else {
-                alert("Please enter your mobile number");
-            }
-            return;
-        }
-
-        if(contactType === "mobile" && !/^\d{10}$/.test(contactValue)){
-            alert("Please enter a valid 10-digit mobile number");
-            return;
-        }
-
-        if(contactType === "email" && !contactValue.includes('@')){
-            alert("Please enter a valid email address");
-            return;
-        }
-
-        if(password.length < 8){
-            alert("Password must be at least 8 characters");
-            return;
-        }
-
-        if(password !== confirmPassword){
-            alert("Passwords do not match!");
-            return;
-        }
-
-        generatedOTP = Math.floor(100000 + Math.random()*900000).toString();
-        verifyMessage.style.display="block";
-        verifyMessage.innerText="Verification code sent successfully.";
-        otpSection.style.display="block";
-    }
-});
-
-function verifyOTP(){
-    let entered=document.getElementById("otpInput").value.trim();
-    if(entered===generatedOTP){
-        showConfetti();
-        alert("Registration Successful!\nWelcome " + document.getElementById("fullName").value.trim());
-        location.reload();
-    }else{
-        alert("Invalid OTP");
-    }
-}
+// Initialize Google Sign-In
+window.onload = function() {
+    google.accounts.id.initialize({
+        client_id: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+        callback: handleCredentialResponse
+    });
+};
 </script>
-
-<!-- Important: Replace YOUR_GOOGLE_CLIENT_ID with your actual Google Client ID -->
-<!-- Get it from: https://console.cloud.google.com/apis/credentials -->
 
 </body>
 </html>
