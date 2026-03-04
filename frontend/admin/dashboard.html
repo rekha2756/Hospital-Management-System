@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>HMS Admin Dashboard</title>
-  <link rel="stylesheet" href="CSS/dashboard.css">
+  <link rel="stylesheet" href="../css/admin/dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -11,11 +12,11 @@
 <div class="navbar">
   <div class="logo">🏥 HEALTHAXIS</div>
   <div class="menu">
-    <a class="active">Dashboard</a>
-    <a>Patients</a>
-    <a>Doctors</a>
-    <a>Appointments</a>
-    <a>Reports</a>
+    <a class="active" href="dashboard.html">Dashboard</a>
+    <a href="patients.html">Patients</a>
+    <a href="doctors.html">Doctors</a>
+    <a href="appointments.html">Appointments</a>
+    <a href="reports.html">Reports</a>
   </div>
   <button class="logout">Logout</button>
 </div>
@@ -28,7 +29,8 @@
     <p>+12 Today</p>
   </div>
 
-  <div class="card green">
+  <!-- Make this card clickable to doctors.html -->
+  <div class="card green" onclick="location.href='doctors.html';" style="cursor:pointer;">
     <h3>Total Doctors</h3>
     <h1>48</h1>
     <p>Available</p>

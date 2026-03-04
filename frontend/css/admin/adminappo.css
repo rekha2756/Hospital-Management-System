@@ -1,0 +1,127 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Stats Cards */
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.card {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+}
+.card span {
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+.filters input, .filters select, .filters button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.filters button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+th, td {
+    padding: 12px 10px;
+    text-align: center;
+    color: #555;
+}
+th {
+    background: #4CAF50;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+tr:nth-child(even) {
+    background: #f2f2f2;
+}
+tr:hover {
+    background: #e2f3e8;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.85em;
+}
+.Confirmed { background: #4CAF50; }
+.Pending { background: #f0ad4e; }
+.Completed { background: #5bc0de; }
+
+.actions a {
+    margin: 0 5px;
+    text-decoration: none;
+    font-size: 0.85em;
+    color: #007bff;
+}
+.actions a.cancel { color: #dc3545; }
+.actions a.confirm { color: #28a745; }
+
+/* Pagination */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.pagination button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+}
+.pagination button.active {
+    background: #4CAF50;
+    color: #fff;
+    border: none;
+}

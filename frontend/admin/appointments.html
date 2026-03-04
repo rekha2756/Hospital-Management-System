@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Appointments</title>
+<!-- Link to external CSS -->
+<link rel="stylesheet" href="../css/admin/adminappo.css">
+</head>
+<body>
+<div class="container">
+    <h1>Appointments</h1>
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="card">Total Appointments <span id="total">412</span></div>
+        <div class="card">Upcoming Today <span id="upcoming">28</span></div>
+        <div class="card">Pending Confirmation <span id="pending">15</span></div>
+        <div class="card">Completed <span id="completed">369</span></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+        <input type="text" id="search" placeholder="Search Patient, Doctor, ID">
+        <select id="statusFilter">
+            <option value="">Status Filter</option>
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Completed">Completed</option>
+        </select>
+        <select id="doctorFilter">
+            <option value="">Doctor Filter</option>
+            <option value="Dr. Reed">Dr. Reed</option>
+            <option value="Dr. Chen">Dr. Chen</option>
+            <option value="Dr. Evans">Dr. Evans</option>
+        </select>
+        <input type="date" id="startDate">
+        <input type="date" id="endDate">
+        <button>+ Add New Appointment</button>
+    </div>
+
+    <!-- Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Appt ID</th>
+                <th>Patient Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Date & Time</th>
+                <th>Assigned Doctor</th>
+                <th>Specialty</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="appointmentsBody">
+            <!-- Rows will be dynamically generated -->
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination" id="pagination"></div>
+</div>
+
+<script>
+const appointments = [
+    {id:'A1234', patient:'John Davis', gender:'Male', age:45, datetime:'Mar 21, 2026, 11:30 AM', doctor:'Dr. Reed', specialty:'Cardiology', status:'Confirmed'},
+    {id:'A1235', patient:'Sarah Miller', gender:'Female', age:32, datetime:'Mar 21, 2026, 1:00 PM', doctor:'Dr. Chen', specialty:'Pediatrics', status:'Pending'},
+    {id:'A1236', patient:'Michael Brown', gender:'Male', age:58, datetime:'Mar 22, 2026, 9:00 AM', doctor:'Dr. Evans', specialty:'Orthopedics', status:'Completed'},
+    {id:'A1237', patient:'John Davis', gender:'Male', age:45, datetime:'Mar 21, 2026, 9:00 AM', doctor:'Dr. Chen', specialty:'Orthopedics', status:'Completed'},
+    {id:'A1238', patient:'Alex Wong', gender:'Male', age:58, datetime:'Mar 22, 2026, 9:00 AM', doctor:'Dr. Evans', specialty:'Orthopedics', status:'Completed'},
+];
+
+let currentPage = 1;
+const rowsPerPage = 3;
+
+function renderTable(page=1) {
+    currentPage = page;
+    const tbody = document.getElementById('appointmentsBody');
+    tbody.innerHTML = '';
+    const start = (page-1)*rowsPerPage;
+    const end = start + rowsPerPage;
+    const pageAppointments = appointments.slice(start,end);
+
+    pageAppointments.forEach(app=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${app.id}</td>
+            <td>${app.patient}</td>
+            <td>${app.gender}</td>
+            <td>${app.age}</td>
+            <td>${app.datetime}</td>
+            <td>${app.doctor}</td>
+            <td>${app.specialty}</td>
+            <td><span class="status ${app.status}">${app.status}</span></td>
+            <td class="actions">
+                <a href="#">View</a>
+                ${app.status==='Pending'?'<a href="#" class="confirm">Confirm</a>':''}
+                ${app.status!=='Completed'?'<a href="#" class="cancel">Cancel</a>':''}
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    renderPagination();
+}
+
+function renderPagination() {
+    const totalPages = Math.ceil(appointments.length/rowsPerPage);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    for(let i=1;i<=totalPages;i++){
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        if(i===currentPage) btn.classList.add('active');
+        btn.onclick = ()=>renderTable(i);
+        pagination.appendChild(btn);
+    }
+}
+
+renderTable();
+</script>
+</body>
+</html>

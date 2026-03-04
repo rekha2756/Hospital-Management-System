@@ -1,0 +1,129 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+.admin-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.admin-header h1 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Search & Filters */
+.search-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.search-filter input,
+.search-filter select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-filter input:focus,
+.search-filter select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76,175,80,0.3);
+}
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+thead {
+  background-color: #4CAF50;
+  color: white;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Status badges */
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+}
+
+.badge.paid { background-color: #28a745; }
+.badge.pending { background-color: #f0ad4e; }
+.badge.overdue { background-color: #d9534f; }
+
+/* Action buttons */
+.actions button {
+  border: none;
+  padding: 6px 10px;
+  margin-right: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+}
+
+.view-btn { background-color: #2196F3; }
+.view-btn:hover { background-color: #0b7dda; }
+
+.download-btn { background-color: #6c757d; }
+.download-btn:hover { background-color: #5a6268; }
+
+.send-btn { background-color: #4CAF50; }
+.send-btn:hover { background-color: #45a049; }
+
+/* Responsive */
+@media screen and (max-width: 1024px) {
+  table {
+    min-width: 700px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .search-filter { flex-direction: column; }
+  .search-filter input,
+  .search-filter select { width: 100%; }
+}

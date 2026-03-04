@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Patients List</title>
+  <link rel="stylesheet" href="../css/admin/patientslist.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="admin-container">
+    <!-- Header -->
+    <header class="admin-header">
+      <h1>Patients List</h1>
+      <a href="addpatient.html" class="add-btn"><i class="fas fa-plus"></i> Add Patient</a>
+    </header>
+
+    <!-- Search & Filter -->
+    <div class="search-filter">
+      <input type="text" placeholder="Search by name, email..." id="searchInput">
+      <select id="filterGender">
+        <option value="">All Genders</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+
+    <!-- Patients Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="patientsTable">
+          <!-- Example row -->
+          <tr data-id="1">
+            <td>1</td>
+            <td>John Smith</td>
+            <td>Male</td>
+            <td>35</td>
+            <td>john@example.com</td>
+            <td>9876543210</td>
+            <td>
+              <button class="edit-btn"><i class="fas fa-edit"></i></button>
+              <button class="delete-btn"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+          <tr data-id="2">
+            <td>2</td>
+            <td>Mary Johnson</td>
+            <td>Female</td>
+            <td>29</td>
+            <td>mary@example.com</td>
+            <td>9123456780</td>
+            <td>
+              <button class="edit-btn"><i class="fas fa-edit"></i></button>
+              <button class="delete-btn"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+          <!-- More rows dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- JavaScript for Delete -->
+  <script>
+    const table = document.getElementById('patientsTable');
+
+    table.addEventListener('click', function(e) {
+      if (e.target.closest('.delete-btn')) {
+        const row = e.target.closest('tr');
+        const patientName = row.children[1].innerText;
+        if (confirm(`Are you sure you want to delete ${patientName}?`)) {
+          row.remove();
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

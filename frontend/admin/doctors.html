@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Doctors List</title>
+  <link rel="stylesheet" href="../css/admin/doctorslist.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="admin-container">
+    <!-- Header -->
+    <header class="admin-header">
+      <h1>Doctors List</h1>
+      <a href="adddoctor.html" class="add-btn"><i class="fas fa-plus"></i> Add Doctor</a>
+    </header>
+
+    <!-- Search & Filter -->
+    <div class="search-filter">
+      <input type="text" placeholder="Search by name, specialty..." id="searchInput">
+      <select id="filterSpecialty">
+        <option value="">All Specialties</option>
+        <option value="cardiology">Cardiology</option>
+        <option value="neurology">Neurology</option>
+        <option value="orthopedic">Orthopedic</option>
+      </select>
+    </div>
+
+    <!-- Doctors Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Specialty</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="doctorsTable">
+          <!-- Example row -->
+          <tr>
+            <td>1</td>
+            <td>Dr. Rekha Gadige</td>
+            <td>Cardiology</td>
+            <td>rekha@example.com</td>
+            <td>9876543210</td>
+            <td>
+              <button class="edit-btn"><i class="fas fa-edit"></i></button>
+              <button class="delete-btn"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Dr. John Doe</td>
+            <td>Neurology</td>
+            <td>john@example.com</td>
+            <td>9123456780</td>
+            <td>
+              <button class="edit-btn"><i class="fas fa-edit"></i></button>
+              <button class="delete-btn"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+          <!-- More rows dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

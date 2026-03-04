@@ -1,0 +1,147 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+.admin-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.admin-header h1 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Search & Filters */
+.search-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.search-filter input,
+.search-filter select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-filter input:focus,
+.search-filter select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76,175,80,0.3);
+}
+
+.add-user-btn {
+  background-color: #2196F3;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.3s;
+}
+
+.add-user-btn:hover {
+  background-color: #0b7dda;
+}
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+thead {
+  background-color: #4CAF50;
+  color: white;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Status badges */
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+}
+
+.badge.active { background-color: #28a745; }
+.badge.inactive { background-color: #f0ad4e; }
+.badge.suspended { background-color: #d9534f; }
+
+/* Action buttons */
+.actions button {
+  border: none;
+  padding: 6px 10px;
+  margin-right: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+}
+
+.edit-btn { background-color: #2196F3; }
+.edit-btn:hover { background-color: #0b7dda; }
+
+.reset-btn { background-color: #6c757d; }
+.reset-btn:hover { background-color: #5a6268; }
+
+.delete-btn { background-color: #f44336; }
+.delete-btn:hover { background-color: #da190b; }
+
+/* Responsive */
+@media screen and (max-width: 1024px) {
+  table { min-width: 700px; }
+}
+
+@media screen and (max-width: 768px) {
+  .search-filter { flex-direction: column; align-items: stretch; }
+  .search-filter input,
+  .search-filter select,
+  .add-user-btn { width: 100%; }
+}

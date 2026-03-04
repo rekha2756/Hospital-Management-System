@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | User Management</title>
+  <link rel="stylesheet" href="../css/admin/usermanagement.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="admin-container">
+  <header class="admin-header">
+    <h1>User Management</h1>
+  </header>
+
+  <!-- Search & Filters -->
+  <div class="search-filter">
+    <input type="text" id="searchInput" placeholder="Search by Name, Email, Role...">
+    <select id="roleFilter">
+      <option value="">All Roles</option>
+      <option value="Admin">Admin</option>
+      <option value="Doctor">Doctor</option>
+      <option value="Receptionist">Receptionist</option>
+      <option value="Lab Technician">Lab Technician</option>
+    </select>
+    <select id="statusFilter">
+      <option value="">All Statuses</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+      <option value="Suspended">Suspended</option>
+    </select>
+    <button class="add-user-btn"><i class="fas fa-user-plus"></i> Add User</button>
+  </div>
+
+  <!-- Users Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Last Login</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="userTable">
+        <tr>
+          <td>John Doe</td>
+          <td>john@example.com</td>
+          <td>Doctor</td>
+          <td><span class="badge active">Active</span></td>
+          <td>2026-03-04 09:45</td>
+          <td class="actions">
+            <button class="edit-btn"><i class="fas fa-edit"></i></button>
+            <button class="reset-btn"><i class="fas fa-key"></i></button>
+            <button class="delete-btn"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td>Mary Jane</td>
+          <td>mary@example.com</td>
+          <td>Receptionist</td>
+          <td><span class="badge inactive">Inactive</span></td>
+          <td>2026-03-02 14:20</td>
+          <td class="actions">
+            <button class="edit-btn"><i class="fas fa-edit"></i></button>
+            <button class="reset-btn"><i class="fas fa-key"></i></button>
+            <button class="delete-btn"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td>Robert Smith</td>
+          <td>robert@example.com</td>
+          <td>Lab Technician</td>
+          <td><span class="badge suspended">Suspended</span></td>
+          <td>2026-03-01 11:30</td>
+          <td class="actions">
+            <button class="edit-btn"><i class="fas fa-edit"></i></button>
+            <button class="reset-btn"><i class="fas fa-key"></i></button>
+            <button class="delete-btn"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const userTable = document.getElementById('userTable');
+
+  searchInput.addEventListener('keyup', function() {
+    const filter = searchInput.value.toLowerCase();
+    Array.from(userTable.rows).forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(filter) ? '' : 'none';
+    });
+  });
+</script>
+
+</body>
+</html>
