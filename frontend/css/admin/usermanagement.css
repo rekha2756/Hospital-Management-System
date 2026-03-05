@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Reset */
 * {
   margin: 0;
@@ -19,6 +20,35 @@ body {
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+=======
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+/* Layout */
+
+.admin-layout{
+display:flex;
+min-height:100vh;
+}
+
+/* Sidebar */
+
+.sidebar{
+width:230px;
+background:#1e2a38;
+color:white;
+padding:20px;
+display:flex;
+flex-direction:column;
+>>>>>>> d38cb2a (updated admin sidebar icons)
 }
 
 .admin-header h1 {
@@ -27,6 +57,7 @@ body {
   color: #2c3e50;
 }
 
+<<<<<<< HEAD
 /* Search & Filters */
 .search-filter {
   display: flex;
@@ -108,12 +139,139 @@ tbody tr:hover {
   font-weight: 500;
   display: inline-block;
   text-align: center;
+=======
+.sidebar a{
+text-decoration:none;
+color:white;
+padding:10px;
+margin-bottom:8px;
+border-radius:5px;
+display:block;
+font-size:15px;
+}
+
+.sidebar a i{
+margin-right:8px;
+}
+
+.sidebar a:hover{
+background:#2c3e50;
+}
+
+.sidebar a.active{
+background:#3498db;
+}
+
+/* Main Content */
+
+.main-content{
+flex:1;
+padding:25px;
+}
+
+.admin-container{
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.admin-header{
+margin-bottom:20px;
+}
+
+.admin-header h1{
+font-size:26px;
+color:#333;
+}
+
+/* Search Filters */
+
+.search-filter{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.search-filter input,
+.search-filter select{
+padding:8px;
+border:1px solid #ccc;
+border-radius:5px;
+font-size:14px;
+}
+
+/* Add User Button */
+
+.add-user-btn{
+background:#3498db;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:5px;
+cursor:pointer;
+font-size:14px;
+}
+
+.add-user-btn:hover{
+background:#2980b9;
+}
+
+/* Table */
+
+.table-container{
+overflow-x:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+thead{
+background:#34495e;
+color:white;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+font-size:14px;
+}
+
+tbody tr:nth-child(even){
+background:#f9f9f9;
+}
+
+/* Status Badges */
+
+.badge{
+padding:5px 10px;
+border-radius:15px;
+font-size:12px;
+color:white;
+}
+
+.badge.active{
+background:#27ae60;
+}
+
+.badge.inactive{
+background:#7f8c8d;
+}
+
+.badge.suspended{
+background:#e74c3c;
+>>>>>>> d38cb2a (updated admin sidebar icons)
 }
 
 .badge.active { background-color: #28a745; }
 .badge.inactive { background-color: #f0ad4e; }
 .badge.suspended { background-color: #d9534f; }
 
+<<<<<<< HEAD
 /* Action buttons */
 .actions button {
   border: none;
@@ -144,4 +302,29 @@ tbody tr:hover {
   .search-filter input,
   .search-filter select,
   .add-user-btn { width: 100%; }
+=======
+.actions button{
+border:none;
+padding:6px 10px;
+border-radius:5px;
+cursor:pointer;
+margin-right:5px;
+color:white;
+}
+
+.edit-btn{
+background:#3498db;
+}
+
+.reset-btn{
+background:#f39c12;
+}
+
+.delete-btn{
+background:#e74c3c;
+}
+
+.actions button:hover{
+opacity:0.85;
+>>>>>>> d38cb2a (updated admin sidebar icons)
 }

@@ -67,6 +67,7 @@
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 <div class="form-footer">
                     <button type="button" class="btn-ghost">Cancel</button>
                     <button type="submit" class="btn-primary">Save Settings</button>
@@ -74,6 +75,74 @@
             </form>
         </div>
     </div>
+=======
+<a href="dashboard.html"><i class="fa fa-home"></i> Dashboard</a>
+<a href="hospitals.html"><i class="fas fa-hospital"></i> Hospitals</a>
+<a href="doctors.html"><i class="fa fa-user-md"></i> Doctors</a>
+<a href="patients.html"><i class="fa fa-user"></i> Patients</a>
+<a href="appointments.html"><i class="fa fa-calendar"></i> Appointments</a>
+<a href="bills.html"><i class="fa fa-file-invoice"></i> Billing</a>
+<a href="usermanagement.html"><i class="fa fa-users"></i> User Management</a>
+<a href="labreports.html"><i class="fa fa-flask"></i> Lab Reports</a>
+<a href="adminprofile.html" class="active"><i class="fa fa-user-circle"></i> Profile</a>
+</div>
+
+
+<!-- Main Content -->
+<div class="main">
+
+<div class="page-title">Admin Profile</div>
+
+<div class="profile-card">
+
+<div class="profile-img-section">
+
+<img src="https://via.placeholder.com/120" id="profileImage">
+
+<input type="file" id="uploadImage" hidden>
+
+<label for="uploadImage" class="upload-btn">
+<i class="fa fa-camera"></i> Change Photo
+</label>
+
+</div>
+
+
+<div class="profile-form">
+
+<label>Name</label>
+<input type="text" value="Super Admin">
+
+<label>Email</label>
+<input type="email" value="admin@healthaxis.com">
+
+<label>Phone</label>
+<input type="text" value="+91 9876543210">
+
+<button class="save-btn">Save Changes</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const uploadImage = document.getElementById("uploadImage");
+const profileImage = document.getElementById("profileImage");
+
+uploadImage.addEventListener("change", function(){
+const file = this.files[0];
+if(file){
+profileImage.src = URL.createObjectURL(file);
+}
+});
+
+</script>
+>>>>>>> d38cb2a (updated admin sidebar icons)
 
 </body>
 </html>
