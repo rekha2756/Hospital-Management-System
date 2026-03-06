@@ -2,72 +2,794 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Patient Medical History</title>
+    <title>Patient Management - HMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <style>
-       body {
-    font-family: Arial, sans-serif;
-    background-image: url("images/indexbg.png"); 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    margin: 0;
-    padding: 20px;
-}
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .container {
-    max-width: 700px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin: auto;
-}
+        :root {
+            --blue: #2563eb;
+            --blue-light: #eff6ff;
+            --blue-dark: #1d4ed8;
+            --green: #22c55e;
+            --red: #ef4444;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-400: #94a3b8;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+            --radius: 16px;
+        }
 
-        h2 {
-            text-align: center;
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f0f4ff;
+            background-image: url("images/indexbg.png");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 24px 16px;
+            color: var(--gray-800);
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .page-header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 24px 32px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+        }
+        .page-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--gray-800);
+        }
+        .page-header p { color: var(--gray-600); font-size: 0.9rem; margin-top: 2px; }
+        .header-icon {
+            width: 48px; height: 48px;
+            background: var(--blue);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .header-icon svg { stroke: white; width: 24px; height: 24px; }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .stat-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .stat-icon svg { width: 22px; height: 22px; }
+        .stat-icon.blue  { background: #dbeafe; } .stat-icon.blue svg  { stroke: var(--blue); }
+        .stat-icon.green { background: #dcfce7; } .stat-icon.green svg { stroke: var(--green); }
+        .stat-icon.purple{ background: #ede9fe; } .stat-icon.purple svg{ stroke: #7c3aed; }
+        .stat-num  { font-size: 1.8rem; font-weight: 700; color: var(--gray-800); line-height: 1; }
+        .stat-label{ font-size: 0.82rem; color: var(--gray-600); margin-top: 4px; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.8);
+            padding: 6px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .tab-btn svg { width: 16px; height: 16px; }
+        .tab-btn.active {
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+        }
+        .tab-btn:not(.active):hover { background: var(--gray-100); color: var(--gray-800); }
+
+        /* Tab Panels */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.97);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
             margin-bottom: 20px;
         }
-
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 15px;
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        .card-title svg { width: 20px; height: 20px; stroke: var(--blue); }
 
-        textarea, input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
         }
-
-        button {
-            margin-top: 20px;
-            padding: 10px;
+        .search-input-wrap {
+            flex: 1;
+            position: relative;
+        }
+        .search-input-wrap svg {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px; height: 18px;
+            stroke: var(--gray-400);
+        }
+        .search-input-wrap input {
             width: 100%;
-            border: none;
-            background-color: #007bff;
+            padding: 12px 14px 12px 42px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-input-wrap input:focus { border-color: var(--blue); }
+        .btn-search {
+            padding: 12px 24px;
+            background: var(--blue);
             color: white;
-            font-size: 16px;
-            border-radius: 5px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s;
         }
+        .btn-search:hover { background: var(--blue-dark); }
 
-        button:hover {
-            background-color: #0056b3;
+        /* Patient Table */
+        .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--gray-200); }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--gray-50); }
+        th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
+        td {
+            padding: 14px 16px;
+            font-size: 0.9rem;
+            color: var(--gray-800);
+            border-top: 1px solid var(--gray-100);
+        }
+        tr:hover td { background: var(--blue-light); }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        .badge-male   { background: #dbeafe; color: #1d4ed8; }
+        .badge-female { background: #fce7f3; color: #be185d; }
+        .badge-other  { background: #f3e8ff; color: #7c3aed; }
+        .btn-view {
+            padding: 6px 14px;
+            background: var(--blue-light);
+            color: var(--blue);
+            border: none;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-view:hover { background: #bfdbfe; }
 
-        .history-display {
-            margin-top: 30px;
-            padding: 15px;
-            background: #f9fafc;
-            border-radius: 5px;
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-grid .full { grid-column: 1 / -1; }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            margin-bottom: 6px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            outline: none;
+            transition: border 0.2s;
+            background: white;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus { border-color: var(--blue); }
+        .btn-submit {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            background: var(--blue);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background: var(--blue-dark); }
+
+        /* Empty / Loading */
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--gray-400);
+        }
+        .empty-state svg { width: 48px; height: 48px; margin-bottom: 12px; stroke: var(--gray-200); }
+        .empty-state p { font-size: 0.95rem; }
+        .loading { text-align: center; padding: 32px; color: var(--gray-400); font-size: 0.95rem; }
+
+        /* Appointment History */
+        .appt-card {
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: box-shadow 0.2s;
+        }
+        .appt-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .appt-date-box {
+            background: var(--blue);
+            color: white;
+            border-radius: 10px;
+            padding: 10px 14px;
+            text-align: center;
+            flex-shrink: 0;
+            min-width: 60px;
+        }
+        .appt-date-box .day  { font-size: 1.4rem; font-weight: 700; line-height: 1; }
+        .appt-date-box .mon  { font-size: 0.75rem; text-transform: uppercase; }
+        .appt-info { flex: 1; }
+        .appt-info .specialist { font-weight: 700; font-size: 0.98rem; }
+        .appt-info .hospital   { font-size: 0.82rem; color: var(--gray-600); margin-top: 2px; }
+        .appt-info .time       { font-size: 0.82rem; color: var(--gray-400); margin-top: 2px; }
+        .appt-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .status-Booked    { background: #dbeafe; color: #1d4ed8; }
+        .status-Completed { background: #dcfce7; color: #15803d; }
+        .status-Cancelled { background: #fee2e2; color: #dc2626; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            background: #1e293b;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.success { border-left: 4px solid var(--green); }
+        .toast.error   { border-left: 4px solid var(--red); }
+
+        @media(max-width: 640px) {
+            .stats-row    { grid-template-columns: 1fr; }
+            .form-grid    { grid-template-columns: 1fr; }
+            .form-grid .full { grid-column: 1; }
+            .page-header  { flex-direction: column; gap: 12px; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <h1>Rekha</h1>
+<div class="page-wrapper">
+
+    <!-- Header -->
+    <div class="page-header">
+        <div>
+            <h1>Patient Management</h1>
+            <p>HMS — Multi Hospital Management System</p>
+        </div>
+        <div class="header-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                </svg>
+            </div>
+            <div>
+                <div class="stat-num" id="totalPatients">—</div>
+                <div class="stat-label">Total Patients</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+            </div>
+            <div>
+                <div class="stat-num" id="totalAppointments">—</div>
+                <div class="stat-label">Total Appointments</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <div>
+                <div class="stat-num" id="totalHospitals">—</div>
+                <div class="stat-label">Hospitals</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('list')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+                <line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>
+                <line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+            All Patients
+        </button>
+        <button class="tab-btn" onclick="switchTab('search')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            Search
+        </button>
+        <button class="tab-btn" onclick="switchTab('history')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Appointment History
+        </button>
+        <button class="tab-btn" onclick="switchTab('add')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add Patient
+        </button>
+    </div>
+
+    <!-- TAB 1: All Patients -->
+    <div class="tab-panel active" id="panel-list">
+        <div class="card">
+            <div class="card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                All Patients
+            </div>
+            <div class="search-bar">
+                <div class="search-input-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="listFilter" placeholder="Filter by name, phone..." oninput="filterPatientList()">
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patientTableBody">
+                        <tr><td colspan="7"><div class="loading">Loading patients...</div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: Search -->
+    <div class="tab-panel" id="panel-search">
+        <div class="card">
+            <div class="card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                Search Patient
+            </div>
+            <div class="search-bar">
+                <div class="search-input-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="searchInput" placeholder="Search by name or phone number...">
+                </div>
+                <button class="btn-search" onclick="searchPatient()">Search</button>
+            </div>
+            <div id="searchResults">
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <p>Enter a name or phone number to search</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 3: Appointment History -->
+    <div class="tab-panel" id="panel-history">
+        <div class="card">
+            <div class="card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Appointment History
+            </div>
+            <div class="search-bar">
+                <div class="search-input-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="historySearch" placeholder="Enter patient name or phone...">
+                </div>
+                <button class="btn-search" onclick="loadHistory()">View History</button>
+            </div>
+            <div id="historyResults">
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <p>Search a patient to view their appointment history</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 4: Add Patient -->
+    <div class="tab-panel" id="panel-add">
+        <div class="card">
+            <div class="card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add New Patient
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="addName" placeholder="Patient full name">
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="addPhone" placeholder="Phone number">
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="addAge" placeholder="Age" min="0" max="150">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="addGender">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="addEmail" placeholder="Email address">
+                </div>
+                <div class="form-group">
+                    <label>Hospital *</label>
+                    <select id="addHospital">
+                        <option value="">Select Hospital</option>
+                    </select>
+                </div>
+                <div class="form-group full">
+                    <label>Address</label>
+                    <input type="text" id="addAddress" placeholder="Full address">
+                </div>
+            </div>
+            <button class="btn-submit" onclick="addPatient()">Add Patient</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'http://localhost:5000/api';
+let allPatients = [];
+
+// ── Tabs ──────────────────────────────────────────────
+function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((b,i) => {
+        const tabs = ['list','search','history','add'];
+        b.classList.toggle('active', tabs[i] === tab);
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+}
+
+// ── Toast ─────────────────────────────────────────────
+function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Load Stats ────────────────────────────────────────
+async function loadStats() {
+    try {
+        const [pRes, aRes, hRes] = await Promise.all([
+            fetch(`${API}/patients`),
+            fetch(`${API}/appointments/count`),
+            fetch(`${API}/hospitals`)
+        ]);
+        const pData = await pRes.json();
+        const aData = await aRes.json();
+        const hData = await hRes.json();
+        if(pData.success) document.getElementById('totalPatients').textContent = pData.patients.length;
+        if(aData.success) document.getElementById('totalAppointments').textContent = aData.count;
+        if(hData.success) document.getElementById('totalHospitals').textContent = hData.hospitals.length;
+    } catch(e) { console.error(e); }
+}
+
+// ── Load All Patients ─────────────────────────────────
+async function loadPatients() {
+    try {
+        const res  = await fetch(`${API}/patients`);
+        const data = await res.json();
+        if(data.success) {
+            allPatients = data.patients;
+            renderPatientTable(allPatients);
+        }
+    } catch(e) {
+        document.getElementById('patientTableBody').innerHTML =
+            '<tr><td colspan="7"><div class="empty-state"><p>Failed to load patients</p></div></td></tr>';
+    }
+}
+
+function renderPatientTable(patients) {
+    const tbody = document.getElementById('patientTableBody');
+    if(!patients.length) {
+        tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><p>No patients found</p></div></td></tr>';
+        return;
+    }
+    tbody.innerHTML = patients.map(p => `
+        <tr>
+            <td>#${p.patient_id}</td>
+            <td><strong>${p.name}</strong></td>
+            <td>${p.age || '—'}</td>
+            <td><span class="badge badge-${(p.gender||'other').toLowerCase()}">${p.gender || '—'}</span></td>
+            <td>${p.phone}</td>
+            <td>${p.email || '—'}</td>
+            <td><button class="btn-view" onclick="viewHistory('${p.name}','${p.phone}')">History</button></td>
+        </tr>
+    `).join('');
+}
+
+function filterPatientList() {
+    const q = document.getElementById('listFilter').value.toLowerCase();
+    renderPatientTable(allPatients.filter(p =>
+        p.name.toLowerCase().includes(q) || p.phone.includes(q)
+    ));
+}
+
+// ── Search Patient ────────────────────────────────────
+async function searchPatient() {
+    const q = document.getElementById('searchInput').value.trim();
+    if(!q) { showToast('Enter a name or phone number', 'error'); return; }
+    const res  = await fetch(`${API}/patients/search?q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+    const container = document.getElementById('searchResults');
+    if(!data.success || !data.patients.length) {
+        container.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>No patients found</p></div>';
+        return;
+    }
+    container.innerHTML = `
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Phone</th><th>Email</th><th>Action</th></tr></thead>
+            <tbody>
+            ${data.patients.map(p => `
+                <tr>
+                    <td>#${p.patient_id}</td>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.age || '—'}</td>
+                    <td><span class="badge badge-${(p.gender||'other').toLowerCase()}">${p.gender || '—'}</span></td>
+                    <td>${p.phone}</td>
+                    <td>${p.email || '—'}</td>
+                    <td><button class="btn-view" onclick="viewHistory('${p.name}','${p.phone}')">History</button></td>
+                </tr>
+            `).join('')}
+            </tbody>
+        </table>
+        </div>`;
+}
+
+// ── Appointment History ───────────────────────────────
+function viewHistory(name, phone) {
+    switchTab('history');
+    document.getElementById('historySearch').value = phone;
+    loadHistory();
+}
+
+async function loadHistory() {
+    const q = document.getElementById('historySearch').value.trim();
+    if(!q) { showToast('Enter a patient name or phone', 'error'); return; }
+    const container = document.getElementById('historyResults');
+    container.innerHTML = '<div class="loading">Loading history...</div>';
+    const res  = await fetch(`${API}/patients/history?q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+    if(!data.success || !data.appointments.length) {
+        container.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><p>No appointment history found</p></div>';
+        return;
+    }
+    container.innerHTML = data.appointments.map(a => {
+        const date = new Date(a.appointment_date);
+        const day  = date.getDate();
+        const mon  = date.toLocaleDateString('en-US', { month: 'short' });
+        return `
+        <div class="appt-card">
+            <div class="appt-date-box">
+                <div class="day">${day}</div>
+                <div class="mon">${mon}</div>
+            </div>
+            <div class="appt-info">
+                <div class="specialist">${a.specialization || 'Specialist'}</div>
+                <div class="hospital">🏥 ${a.hospital_name}</div>
+                <div class="time">🕐 ${a.appointment_time}</div>
+            </div>
+            <span class="appt-status status-${a.status}">${a.status}</span>
+        </div>`;
+    }).join('');
+}
+
+// ── Add Patient ───────────────────────────────────────
+async function loadHospitals() {
+    const res  = await fetch(`${API}/hospitals`);
+    const data = await res.json();
+    if(data.success) {
+        const sel = document.getElementById('addHospital');
+        data.hospitals.forEach(h => {
+            const opt = document.createElement('option');
+            opt.value = h.hospital_id;
+            opt.textContent = h.hospital_name;
+            sel.appendChild(opt);
+        });
+    }
+}
+
+async function addPatient() {
+    const name     = document.getElementById('addName').value.trim();
+    const phone    = document.getElementById('addPhone').value.trim();
+    const age      = document.getElementById('addAge').value;
+    const gender   = document.getElementById('addGender').value;
+    const email    = document.getElementById('addEmail').value.trim();
+    const hospital = document.getElementById('addHospital').value;
+    const address  = document.getElementById('addAddress').value.trim();
+
+    if(!name || !phone || !hospital) {
+        showToast('Name, phone and hospital are required!', 'error');
+        return;
+    }
+
+    const res    = await fetch(`${API}/patients`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, age, gender, email, hospital_id: hospital, address })
+    });
+    const result = await res.json();
+    if(result.success) {
+        showToast('Patient added successfully! ✅');
+        // Clear form
+        ['addName','addPhone','addAge','addEmail','addAddress'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('addGender').value = '';
+        document.getElementById('addHospital').value = '';
+        loadPatients();
+        loadStats();
+    } else {
+        showToast('Failed: ' + result.message, 'error');
+    }
+}
+
+// ── Init ──────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+    loadStats();
+    loadPatients();
+    loadHospitals();
+});
+</script>
 </body>
 </html>

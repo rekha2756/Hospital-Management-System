@@ -1,181 +1,353 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Book Appointment</title>
     <link rel="stylesheet" href="css/appointment.css">
     <style>
-        .popup { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; }
-        .popup-content { background:white; padding:20px; border-radius:8px; text-align:center; }
+        .success-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .success-modal-overlay.show {
+            display: flex;
+        }
+        .success-modal {
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px 32px;
+            max-width: 360px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: #fff;
+            stroke-width: 3;
+            fill: none;
+        }
+        .success-modal h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        .success-modal .modal-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        .appt-info-card {
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 18px 20px;
+            text-align: left;
+            margin-bottom: 28px;
+        }
+        .appt-info-card .doctor-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 12px;
+        }
+        .appt-info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.88rem;
+            color: #444;
+        }
+        .appt-info-row:last-child { margin-bottom: 0; }
+        .appt-info-row svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        .btn-continue {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: background 0.2s;
+        }
+        .btn-continue:hover { background: #1d4ed8; }
+        .btn-calendar {
+            width: 100%;
+            padding: 13px;
+            background: #fff;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: background 0.2s;
+        }
+        .btn-calendar:hover { background: #eff6ff; }
+        .btn-another {
+            background: none;
+            border: none;
+            color: #2563eb;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .btn-another:hover { color: #1d4ed8; }
     </style>
 </head>
 <body>
 <div class="overlay">
 <div class="appointment-container">
-
     <div class="appointment-form-section">
         <h1>Book Appointment</h1>
         <p class="subtitle">Enter Details</p>
 
         <form id="appointmentForm">
             <div class="form-group">
-                <label>Full Name *</label>
-                <input type="text" id="patient_name" placeholder="Enter your full name" required>
+                <label>Full Name</label>
+                <input type="text" name="name" placeholder="Enter your full name" required>
             </div>
             <div class="form-group">
-                <label>Phone Number *</label>
-                <input type="tel" id="patient_phone" placeholder="Enter your phone number" required>
+                <label>Contact Number</label>
+                <input type="tel" name="phone" placeholder="Phone number" required>
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" id="patient_email" placeholder="Enter your email (optional)">
+                <input type="email" name="email" placeholder="Email address">
             </div>
             <div class="form-group">
-                <label>Hospital *</label>
-                <select id="hospital" required>
+                <label>Hospital</label>
+                <select name="hospital" id="hospitalSelect" required>
                     <option value="">Select Hospital</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Specialist *</label>
-                <select id="doctor" required>
+                <label>Specialist</label>
+                <select name="specialist" id="specialistSelect" required>
                     <option value="">Select Specialist</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Appointment Date *</label>
-                <input type="date" id="appointment_date" required>
+                <label>Appointment Date</label>
+                <input type="date" name="date" required>
             </div>
             <div class="form-group">
-                <label>Time Slot *</label>
-                <select id="time_slot" required>
+                <label>Time Slot</label>
+                <select name="time" required>
                     <option value="">Select Time</option>
-                    <option>09:00 AM - 10:00 AM</option>
-                    <option>10:00 AM - 11:00 AM</option>
-                    <option>02:00 PM - 03:00 PM</option>
+                    <option value="09:00:00">09:00 AM - 10:00 AM</option>
+                    <option value="10:00:00">10:00 AM - 11:00 AM</option>
+                    <option value="11:00:00">11:00 AM - 12:00 PM</option>
+                    <option value="14:00:00">02:00 PM - 03:00 PM</option>
+                    <option value="15:00:00">03:00 PM - 04:00 PM</option>
+                    <option value="16:00:00">04:00 PM - 05:00 PM</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Reason</label>
-                <textarea id="reason" placeholder="Describe your issue"></textarea>
+                <textarea name="reason" placeholder="Describe your issue"></textarea>
             </div>
-            <button type="submit" class="book-btn">Confirm Appointment</button>
+            <button type="button" class="book-btn" onclick="bookAppointment()">Confirm Appointment</button>
         </form>
+    </div>
+</div>
+</div>
 
-        <div id="successPopup" class="popup">
-            <div class="popup-content">
-                <h2>✅ Appointment Booked!</h2>
-                <p>Your appointment has been successfully scheduled.</p>
-                <button onclick="closePopup()">OK</button>
+<!-- ✅ Success Modal -->
+<div class="success-modal-overlay" id="successModal">
+    <div class="success-modal">
+        <div class="success-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Your appointment has<br>been booked!</h2>
+        <p class="modal-subtitle">A booking confirmation has been sent to the email or mobile number on file.</p>
+
+        <div class="appt-info-card">
+            <div class="doctor-name" id="modalSpecialist"></div>
+            <div class="appt-info-row">
+                <!-- Calendar icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span id="modalDateTime"></span>
+            </div>
+            <div class="appt-info-row">
+                <!-- Reason icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <span id="modalReason"></span>
+            </div>
+            <div class="appt-info-row">
+                <!-- Location icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                    <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+                <span id="modalHospital"></span>
             </div>
         </div>
 
-        <script>
-        // Load Hospitals
-        fetch("http://localhost:5000/hospitals")
-            .then(res => res.json())
-            .then(data => {
-                const hospitalSelect = document.getElementById("hospital");
-                data.forEach(h => {
-                    const option = document.createElement("option");
-                    option.value = h.hospital_id;
-                    option.textContent = h.hospital_name;
-                    hospitalSelect.appendChild(option);
-                });
+        <button class="btn-continue" onclick="closeModal()">Continue</button>
+        <button class="btn-calendar" onclick="addToCalendar()">Add Appointment To Calendar</button>
+        <button class="btn-another" onclick="bookAnother()">Book Another Appointment</button>
+    </div>
+</div>
+
+<script>
+const hospitalSelect   = document.getElementById("hospitalSelect");
+const specialistSelect = document.getElementById("specialistSelect");
+let lastAppointment = {};
+
+async function loadHospitals(){
+    const res  = await fetch('http://localhost:5000/api/hospitals');
+    const data = await res.json();
+    if(data.success){
+        data.hospitals.forEach(h => {
+            const opt = document.createElement("option");
+            opt.value = h.hospital_id;
+            opt.textContent = h.hospital_name;
+            hospitalSelect.appendChild(opt);
+        });
+    }
+}
+
+hospitalSelect.addEventListener("change", async () => {
+    const hospitalId = hospitalSelect.value;
+    specialistSelect.innerHTML = '<option value="">Select Specialist</option>';
+    if(hospitalId){
+        const res  = await fetch(`http://localhost:5000/api/hospitals/${hospitalId}/specialists`);
+        const data = await res.json();
+        if(data.success){
+            data.specialists.forEach(s => {
+                const opt = document.createElement("option");
+                opt.value = s;
+                opt.textContent = s;
+                specialistSelect.appendChild(opt);
             });
-
-        // Load Doctors when hospital changes
-        document.getElementById("hospital").addEventListener("change", function() {
-            const hospitalId = this.value;
-            if(!hospitalId) return;
-
-            fetch(`http://localhost:5000/doctors/${hospitalId}`)
-                .then(res => res.json())
-                .then(data => {
-                    const doctorSelect = document.getElementById("doctor");
-                    doctorSelect.innerHTML = "<option value=''>Select Specialist</option>";
-                    data.forEach(d => {
-                        const option = document.createElement("option");
-                        option.value = d.doctor_id;
-                        option.textContent = d.name + " (" + d.specialization + ")";
-                        doctorSelect.appendChild(option);
-                    });
-                });
-        });
-
-        // Submit form
-        document.getElementById("appointmentForm").addEventListener("submit", function(e){
-            e.preventDefault();
-
-            const name = document.getElementById("patient_name").value.trim();
-            const phone = document.getElementById("patient_phone").value.trim();
-            const email = document.getElementById("patient_email").value.trim();
-            const hospitalId = document.getElementById("hospital").value;
-            const doctorId = document.getElementById("doctor").value;
-            const date = document.getElementById("appointment_date").value;
-            const timeSlot = document.getElementById("time_slot").value;
-            const reason = document.getElementById("reason").value.trim();
-
-            if(!name || !phone || !hospitalId || !doctorId || !date || !timeSlot){
-                alert("❌ Please fill all required fields!");
-                return;
-            }
-
-            const startTime = timeSlot.split(" - ")[0];
-            const [hour, minute, period] = startTime.match(/(\d+):(\d+) (\w+)/).slice(1);
-            let hour24 = parseInt(hour);
-            if(period === "PM" && hour24 !== 12) hour24 += 12;
-            if(period === "AM" && hour24 === 12) hour24 = 0;
-            const time_mysql = `${hour24.toString().padStart(2,'0')}:${minute}:00`;
-
-            // Insert patient
-            fetch("http://localhost:5000/patients", {
-                method: "POST",
-                headers: {"Content-Type":"application/json"},
-                body: JSON.stringify({ full_name: name, contact_number: phone, email: email })
-            })
-            .then(res => res.json())
-            .then(data => {
-                const patientId = data.patient_id;
-
-                // Insert appointment
-                fetch("http://localhost:5000/appointments", {
-                    method: "POST",
-                    headers: {"Content-Type":"application/json"},
-                    body: JSON.stringify({
-                        patient_id: patientId,
-                        hospital_id: hospitalId,
-                        doctor_id: doctorId,
-                        appointment_date: date,
-                        appointment_time: time_mysql,
-                        status: "Pending",
-                        reason: reason
-                    })
-                })
-                .then(res => res.json())
-                .then(resData => {
-                    if(resData.success){
-                        const message = `Hello ${name}, your appointment is booked for ${date} at ${startTime}.`;
-                        window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`, "_blank");
-                        document.getElementById("successPopup").style.display = "flex";
-                        document.getElementById("appointmentForm").reset();
-                    } else alert("❌ Error booking appointment!");
-                });
-            })
-            .catch(err => console.error(err));
-        });
-
-        function closePopup(){
-            document.getElementById("successPopup").style.display = "none";
         }
-        </script>
+    }
+});
 
-    </div>
+function formatTime(timeStr){
+    const [h, m] = timeStr.split(':');
+    const hour = parseInt(h);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+    return `${displayHour}:${m} ${ampm}`;
+}
 
-    <div class="appointment-image-section">
-        <img src="images/appoint.png" alt="Appointment Image">
-    </div>
+function formatDate(dateStr){
+    const date = new Date(dateStr + 'T00:00:00');
+    return date.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+}
 
-</div>
-</div>
+function showSuccessModal(appt){
+    document.getElementById('modalSpecialist').textContent = appt.specialist;
+    document.getElementById('modalDateTime').textContent   = `${formatDate(appt.date)} - ${formatTime(appt.time)}`;
+    document.getElementById('modalReason').textContent     = appt.reason || 'General Consultation';
+    document.getElementById('modalHospital').textContent   = appt.hospitalName;
+    document.getElementById('successModal').classList.add('show');
+}
+
+function closeModal(){
+    document.getElementById('successModal').classList.remove('show');
+}
+
+function bookAnother(){
+    closeModal();
+    document.getElementById('appointmentForm').reset();
+    specialistSelect.innerHTML = '<option value="">Select Specialist</option>';
+}
+
+function addToCalendar(){
+    const { date, time, specialist, hospitalName, reason } = lastAppointment;
+    const startStr = date.replace(/-/g,'') + 'T' + time.replace(/:/g,'');
+    const endHour  = String(parseInt(time.split(':')[0]) + 1).padStart(2,'0');
+    const endStr   = date.replace(/-/g,'') + 'T' + endHour + time.slice(2).replace(/:/g,'');
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE`
+        + `&text=Appointment+-+${encodeURIComponent(specialist)}`
+        + `&dates=${startStr}/${endStr}`
+        + `&details=${encodeURIComponent(reason || 'Medical Appointment')}`
+        + `&location=${encodeURIComponent(hospitalName)}`;
+    window.open(url, '_blank');
+}
+
+async function bookAppointment(){
+    const form     = document.getElementById("appointmentForm");
+    const formData = new FormData(form);
+    const name       = formData.get("name").trim();
+    const phone      = formData.get("phone").trim();
+    const email      = formData.get("email").trim();
+    const hospital   = formData.get("hospital");
+    const specialist = formData.get("specialist");
+    const date       = formData.get("date");
+    const time       = formData.get("time");
+    const reason     = formData.get("reason");
+
+    if(!name || !phone || !hospital || !specialist || !date || !time){
+        alert("Please fill all required fields!");
+        return;
+    }
+
+    const hospitalName = hospitalSelect.options[hospitalSelect.selectedIndex].text;
+
+    try {
+        const res    = await fetch('http://localhost:5000/api/appointments', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ name, phone, email, hospital, specialist, date, time, reason })
+        });
+        const result = await res.json();
+        if(result.success){
+            lastAppointment = { name, specialist, date, time, hospitalName, reason };
+            showSuccessModal(lastAppointment);
+        } else {
+            alert("Booking failed: " + result.message);
+        }
+    } catch(err){
+        alert("Error connecting to server: " + err.message);
+    }
+}
+
+window.addEventListener("DOMContentLoaded", loadHospitals);
+</script>
 </body>
 </html>
