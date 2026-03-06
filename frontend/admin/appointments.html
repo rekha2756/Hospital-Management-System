@@ -49,25 +49,31 @@
         <div class="card">Completed <span id="completed">369</span></div>
     </div>
 
-    <!-- Filters -->
-    <div class="filters">
-        <input type="text" id="search" placeholder="Search Patient, Doctor, ID">
-        <select id="statusFilter">
-            <option value="">Status Filter</option>
-            <option value="Pending">Pending</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="Completed">Completed</option>
-        </select>
-        <select id="doctorFilter">
-            <option value="">Doctor Filter</option>
-            <option value="Dr. Reed">Dr. Reed</option>
-            <option value="Dr. Chen">Dr. Chen</option>
-            <option value="Dr. Evans">Dr. Evans</option>
-        </select>
-        <input type="date" id="startDate">
-        <input type="date" id="endDate">
-        <button>+ Add New Appointment</button>
-    </div>
+<!-- Filters -->
+<div class="filters">
+
+<input type="text" placeholder="Search Patient, Doctor, ID">
+
+<select>
+<option>Status Filter</option>
+<option>Pending</option>
+<option>Confirmed</option>
+<option>Completed</option>
+</select>
+
+<select>
+<option>Doctor Filter</option>
+<option>Dr. Reed</option>
+<option>Dr. Chen</option>
+<option>Dr. Evans</option>
+</select>
+
+<input type="date">
+<input type="date">
+
+<button class="add-btn">+ Add Appointment</button>
+
+</div>
 
     <!-- Table -->
     <table>
